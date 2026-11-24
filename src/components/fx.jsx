@@ -112,6 +112,9 @@ export function Tilt({ children, className, max = 8, ...rest }) {
     e.currentTarget.style.setProperty('--my', `${(py + 0.5) * 100}%`)
   }
   const leave = () => { rx.set(0); ry.set(0) }
+  // Touch screens get a plain wrapper: no 3D transform at all. iOS Safari mis-renders
+  // perspective transforms inside scrolling containers (cards grow while scrolling).
+  if (reduce) return <div className={className} {...rest}>{children}</div>
   return (
     <motion.div className={className} style={{ rotateX: srx, rotateY: sry, transformPerspective: 900 }} onMouseMove={move} onMouseLeave={leave} {...rest}>
       {children}
