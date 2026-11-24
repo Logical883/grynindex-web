@@ -1,5 +1,5 @@
 import { ArrowUp, ArrowUpRight } from 'lucide-react'
-import { socials, img, SITE } from '../data'
+import { socials, img, sec } from '../data'
 
 const paths = {
   TikTok: 'M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48Z',
@@ -15,14 +15,14 @@ export function SocialIcon({ name }) {
 
 export default function Footer() {
   const links = [
-    ['Our Services', '#services'], ['How We Work', '#process'], ['Study Locations', '#destinations'], ['Events', '#events'],
-    ['Accommodation', `${SITE}/accommodation/`], ['About Us', `${SITE}/about-us/`], ['Blog', `${SITE}/blog/`], ['Contact', `${SITE}/contact/`],
+    ['Our Services', sec('services')], ['How We Work', sec('process')], ['Study Locations', sec('destinations')], ['Events', sec('events')],
+    ['Accommodation', '/accommodation'], ['About Us', '/about'], ['Blog', '/blog'], ['Contact', '/contact'],
   ]
   return (
     <footer className="footer" data-dark>
       <div className="container footer-top">
         <div className="footer-brand">
-          <span className="footer-logo"><img src={img('grynindex-logo-trim.png')} alt="Gryn Index Initiative" /></span>
+          <span className="footer-logo"><img src={img('grynindex-logo-white.png')} alt="Gryn Index Initiative" /></span>
           <p>At GRYN INDEX INITIATIVE, we simplify your path to global education by providing seamless international education processes with expert guidance.</p>
         </div>
         <div>
@@ -47,7 +47,7 @@ export default function Footer() {
       <div className="footer-word" aria-hidden="true">GRYN INDEX</div>
       <div className="container footer-bottom">
         <span>©2026 Gryn Index Initiative. All Rights Reserved.</span>
-        <a href="#top" className="to-top">Back to top <ArrowUp size={14} /></a>
+        <a href={sec('top')} className="to-top">Back to top <ArrowUp size={14} /></a>
       </div>
     </footer>
   )

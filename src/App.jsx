@@ -5,7 +5,25 @@ import Nav from './components/Nav'
 import Hero from './components/Hero'
 import { Stats, Services, Process, Destinations, Why, Events, Testimonial, CTA } from './components/Sections'
 import Footer from './components/Footer'
+import NotReady from './components/NotReady'
 import { Cursor, ScrollProgress } from './components/fx'
+import { isHome } from './data'
+
+function Home() {
+  return (
+    <>
+      <Hero />
+      <Stats />
+      <Services />
+      <Process />
+      <Destinations />
+      <Why />
+      <Events />
+      <Testimonial />
+      <CTA />
+    </>
+  )
+}
 
 export default function App() {
   const { scrollYProgress } = useScroll()
@@ -16,6 +34,11 @@ export default function App() {
     let id
     const raf = (t) => { lenis.raf(t); id = requestAnimationFrame(raf) }
     id = requestAnimationFrame(raf)
+    // Arriving from an inner page via "/#section": scroll there once the layout has settled.
+    if (isHome && window.location.hash) {
+      const el = document.querySelector(window.location.hash)
+      if (el) setTimeout(() => lenis.scrollTo(el, { offset: -90, immediate: true }), 100)
+    }
     return () => { cancelAnimationFrame(id); lenis.destroy() }
   }, [])
 
@@ -24,17 +47,7 @@ export default function App() {
       <ScrollProgress progress={scrollYProgress} />
       <Cursor />
       <Nav />
-      <main>
-        <Hero />
-        <Stats />
-        <Services />
-        <Process />
-        <Destinations />
-        <Why />
-        <Events />
-        <Testimonial />
-        <CTA />
-      </main>
+      <main>{isHome ? <Home /> : <NotReady path={window.location.pathname} />}</main>
       <Footer />
     </>
   )

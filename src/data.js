@@ -1,11 +1,13 @@
-// All copy and imagery below comes from the current grynindexedu.com home page.
+// All copy and imagery below comes from the company's current home page.
 // Sentences that were cut off mid-way on the live site are closed at the last full clause.
 import {
   GraduationCap, School, FileText, ClipboardCheck, Stamp, Plane,
   MessagesSquare, Ticket, BedDouble, Users, House, Compass,
 } from 'lucide-react'
 
-export const SITE = 'https://grynindexedu.com'
+// Home sections are linked with a hash on the home page and "/#id" from inner pages.
+export const isHome = typeof window === 'undefined' || window.location.pathname === '/'
+export const sec = (id) => (isHome ? `#${id}` : `/#${id}`)
 export const img = (name) => `/images/${name}`
 
 export const services = [
@@ -13,28 +15,28 @@ export const services = [
     title: 'Academic Counseling',
     icon: GraduationCap,
     image: img('Young-Programmer.jpg'),
-    href: `${SITE}/our-services/`,
+    href: '/services',
     text: 'Our academic counseling service is designed to provide personalized guidance and support to help you make informed decisions about your educational journey.',
   },
   {
     title: 'Admission Support',
     icon: School,
     image: img('box2.jpg'),
-    href: `${SITE}/our-services/`,
+    href: '/services',
     text: 'Our admission support service is tailored to streamline the university application process and maximize your chances of acceptance.',
   },
   {
     title: 'Visa Application',
     icon: Stamp,
     image: img('Working-from-Home.jpg'),
-    href: `${SITE}/our-services/`,
+    href: '/services',
     text: 'Navigating the visa application process can be complex and time-consuming. Our visa application service is designed to simplify this process for you.',
   },
   {
     title: 'Amazing Flight Offers',
     icon: Plane,
     image: img('Airplane-Flying.jpg'),
-    href: `${SITE}/our-services/`,
+    href: '/services',
     text: 'Explore our fantastic flight offers to get you to your dream destination without straining your wallet.',
   },
 ]
@@ -73,13 +75,13 @@ export const steps = [
 ]
 
 export const destinations = [
-  { name: 'The United Kingdom', code: 'UK', image: img('Young-Programmer.jpg'), href: `${SITE}/uk/`, text: 'The UK has a world-class, long and successful history of excellence.' },
-  { name: 'Canada', code: 'CA', image: img('Canada.jpg'), href: `${SITE}/canada-2/`, text: 'Canada, the world’s second-largest country by landmass, is in the North American continent.' },
-  { name: 'United States', code: 'US', image: img('US-Flag-Balloon.jpg'), href: `${SITE}/usa/`, text: 'The United States of America makes up a great portion of the North American continent.' },
-  { name: 'Ireland', code: 'IE', image: img('ireland-flag.jpeg'), href: `${SITE}/ireland/`, text: 'The Republic of Ireland is a part of the European Union.' },
-  { name: 'Australia', code: 'AU', image: img('Australian-Flags.jpg'), href: `${SITE}/australia/`, text: 'Australia is more than a study destination; Australia is a change in lifestyle.' },
-  { name: 'Europe', code: 'EU', image: img('European-Union-Flag.jpg'), href: `${SITE}/europe/`, text: 'Embark on an incredible educational adventure in Europe, where diverse cultures and academic excellence meet.' },
-  { name: 'New Zealand', code: 'NZ', image: img('new-zealand.webp'), href: `${SITE}/the-new-zealand/`, text: 'Embark on an enriching academic journey in New Zealand, where natural beauty meets educational excellence.' },
+  { name: 'The United Kingdom', code: 'UK', image: img('Young-Programmer.jpg'), href: '/destinations/uk', text: 'The UK has a world-class, long and successful history of excellence.' },
+  { name: 'Canada', code: 'CA', image: img('Canada.jpg'), href: '/destinations/canada', text: 'Canada, the world’s second-largest country by landmass, is in the North American continent.' },
+  { name: 'United States', code: 'US', image: img('US-Flag-Balloon.jpg'), href: '/destinations/usa', text: 'The United States of America makes up a great portion of the North American continent.' },
+  { name: 'Ireland', code: 'IE', image: img('ireland-flag.jpeg'), href: '/destinations/ireland', text: 'The Republic of Ireland is a part of the European Union.' },
+  { name: 'Australia', code: 'AU', image: img('Australian-Flags.jpg'), href: '/destinations/australia', text: 'Australia is more than a study destination; Australia is a change in lifestyle.' },
+  { name: 'Europe', code: 'EU', image: img('European-Union-Flag.jpg'), href: '/destinations/europe', text: 'Embark on an incredible educational adventure in Europe, where diverse cultures and academic excellence meet.' },
+  { name: 'New Zealand', code: 'NZ', image: img('new-zealand.webp'), href: '/destinations/new-zealand', text: 'Embark on an enriching academic journey in New Zealand, where natural beauty meets educational excellence.' },
 ]
 
 // Figures taken from the "Why choose us" graphic on the live site.
@@ -122,10 +124,10 @@ export const socials = [
 export const nav = {
   services: services.map((s) => ({ ...s, short: s.text.split('.')[0] + '.' })),
   explore: [
-    { title: 'Events', icon: Ticket, href: '#events', text: 'Free sessions, edu-fairs and open days.' },
-    { title: 'Accommodation', icon: BedDouble, href: `${SITE}/accommodation/`, text: 'Find a place to stay before you land.' },
-    { title: 'About Us', icon: Users, href: `${SITE}/about-us/`, text: 'The team behind your journey.' },
-    { title: 'How We Work', icon: Compass, href: '#process', text: 'From counseling to visa, step by step.' },
+    { title: 'Events', icon: Ticket, href: sec('events'), text: 'Free sessions, edu-fairs and open days.' },
+    { title: 'Accommodation', icon: BedDouble, href: '/accommodation', text: 'Find a place to stay before you land.' },
+    { title: 'About Us', icon: Users, href: '/about', text: 'The team behind your journey.' },
+    { title: 'How We Work', icon: Compass, href: sec('process'), text: 'From counseling to visa, step by step.' },
   ],
   home: House,
 }

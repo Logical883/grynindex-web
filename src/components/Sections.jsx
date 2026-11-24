@@ -2,15 +2,15 @@ import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react'
 import {
   ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Calendar, Clock, MapPin,
-  Quote, ShieldCheck, Headphones, Building, Globe, Ticket,
+  Quote, ShieldCheck, Headphones, Building, Globe, Ticket, GraduationCap, BadgeCheck,
 } from 'lucide-react'
-import { services, steps, destinations, stats, event, testimonial, img, SITE } from '../data'
+import { services, steps, destinations, stats, event, testimonial, img } from '../data'
 import { Reveal, SplitText, Counter, Magnetic, Tilt } from './fx'
 
 const ease = [0.22, 1, 0.36, 1]
 
 function Eyebrow({ children, light }) {
-  return <p className={`eyebrow ${light ? 'light' : ''}`}><span className="eyebrow-dot" />{children}</p>
+  return <p className={`eyebrow ${light ? 'light' : ''}`}>{children}</p>
 }
 
 /* ---------- Stats + accreditation ---------- */
@@ -51,7 +51,7 @@ export function Services() {
         {services.map(({ title, text, icon: Icon, image, href }, i) => (
           <Reveal key={title} delay={i * 0.1}>
             <Tilt className="service-card" max={6}>
-              <a href={href} data-cursor="Explore">
+              <a href={href}>
                 <div className="service-media">
                   <img src={image} alt="" loading="lazy" />
                   <span className="service-num">0{i + 1}</span>
@@ -62,7 +62,6 @@ export function Services() {
                   <p>{text}</p>
                   <span className="service-link">Learn more <ArrowUpRight size={16} /></span>
                 </div>
-                <span className="card-glow" aria-hidden="true" />
               </a>
             </Tilt>
           </Reveal>
@@ -72,7 +71,7 @@ export function Services() {
   )
 }
 
-/* ---------- How We Work: sticky scroll stepper ---------- */
+/* ---------- How We Work: sticky heading + scroll-filled timeline ---------- */
 export function Process() {
   const ref = useRef(null)
   const [active, setActive] = useState(0)
@@ -83,26 +82,19 @@ export function Process() {
   })
 
   return (
-    <section id="process" className="process" data-dark ref={ref}>
+    <section id="process" className="process violet-panel" data-dark ref={ref}>
       <div className="grain" aria-hidden="true" />
       <div className="container process-inner">
         <div className="process-sticky">
           <Eyebrow light>How We Work</Eyebrow>
           <SplitText className="display light" text="Five steps. One seamless journey." />
           <p className="lede light">Expert guidance at every stage, so nothing falls through the cracks.</p>
-          <div className="process-art">
-            {steps.map((s, i) => (
-              <motion.img key={s.title} src={s.art} alt=""
-                animate={{ opacity: i === active ? 1 : 0, scale: i === active ? 1 : 0.9, rotate: i === active ? 0 : -6 }}
-                transition={{ duration: 0.6, ease }} />
-            ))}
-          </div>
         </div>
 
         <ol className="process-steps">
           <div className="process-track" aria-hidden="true"><motion.span style={{ scaleY: line }} /></div>
           {steps.map(({ title, text, icon: Icon }, i) => (
-            <motion.li key={title} className={`step ${i <= active ? 'done' : ''} ${i === active ? 'current' : ''}`}
+            <motion.li key={title} className={`step ${i <= active ? 'done' : ''}`}
               initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: '-15% 0px' }}
               transition={{ duration: 0.8, ease }}>
               <span className="step-marker"><Icon size={18} strokeWidth={1.75} /></span>
@@ -142,7 +134,7 @@ export function Destinations() {
 
       <div className="dest-track" ref={track}>
         {destinations.map((d, i) => (
-          <motion.a key={d.code} href={d.href} className="dest-card" data-cursor="View"
+          <motion.a key={d.code} href={d.href} className="dest-card"
             initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.9, ease, delay: (i % 4) * 0.08 }}>
             <div className="dest-media">
@@ -161,16 +153,22 @@ export function Destinations() {
   )
 }
 
-/* ---------- Why choose us ---------- */
+/* ---------- Why choose us (hosts the team collage) ---------- */
 export function Why() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const y = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
+  const y = useTransform(scrollYProgress, [0, 1], ['5%', '-5%'])
+  const chipY = useTransform(scrollYProgress, [0, 1], [40, -40])
   const points = [
     { icon: Headphones, title: 'In-person & virtual support', text: '100% support across every step, whichever way suits you.' },
     { icon: Building, title: '10 offices', text: 'Real people you can meet, not anonymous online “experts”.' },
     { icon: ShieldCheck, title: 'Certified & accredited', text: 'British Council certified, with recognized industry accreditation.' },
     { icon: Globe, title: '11 destinations', text: 'UK, Canada, USA, Ireland, Australia, Europe, New Zealand and more.' },
+  ]
+  const chips = [
+    { cls: 'chip-a', icon: GraduationCap, title: '2,000+', sub: 'Offers to top universities' },
+    { cls: 'chip-b', icon: BadgeCheck, title: 'British Council', sub: 'Certified agency' },
+    { cls: 'chip-c', icon: MapPin, title: '11 destinations', sub: '10 offices' },
   ]
   return (
     <section className="section container why" ref={ref}>
@@ -190,8 +188,17 @@ export function Why() {
           ))}
         </div>
       </div>
+
       <Reveal className="why-visual">
-        <motion.img style={{ y }} src={img('Why-Choose-us1-1.png')} alt="900+ happy students, 2000+ offers to top universities, 100% in-person and virtual support, 10 offices, 11 destinations" />
+        <motion.div className="collage" style={{ y }}>
+          <img src={img('banner1.png')} alt="GrynIndex counselors with students, and an accepted university application" />
+        </motion.div>
+        {chips.map(({ cls, icon: Icon, title, sub }, i) => (
+          <motion.div key={cls} className={`glass-chip ${cls}`} style={{ y: i === 1 ? y : chipY }}>
+            <span className="chip-ico"><Icon size={16} /></span>
+            <span><strong>{title}</strong><small>{sub}</small></span>
+          </motion.div>
+        ))}
       </Reveal>
     </section>
   )
@@ -228,7 +235,7 @@ export function Events() {
             <Reveal as="p" className="event-body em" delay={0.25}>Stay informed and inspired as we shape a brighter future together.</Reveal>
             <Reveal delay={0.3}>
               <Magnetic>
-                <a href={`${SITE}/contact/`} className="btn btn-green">Secure your spot today <ArrowRight size={16} /></a>
+                <a href="/contact" className="btn btn-green">Secure your spot today <ArrowRight size={16} /></a>
               </Magnetic>
             </Reveal>
           </div>
@@ -238,7 +245,7 @@ export function Events() {
       <div className="marquee" aria-label="Past events">
         <div className="marquee-track">
           {[...event.gallery, ...event.gallery].map((src, i) => (
-            <div className="marquee-item" key={i} data-cursor="Event"><img src={src} alt="" loading="lazy" /></div>
+            <div className="marquee-item" key={i}><img src={src} alt="" loading="lazy" /></div>
           ))}
         </div>
       </div>
@@ -267,17 +274,17 @@ export function Testimonial() {
 export function CTA() {
   return (
     <section className="container cta-wrap">
-      <motion.div className="cta" data-dark
+      <motion.div className="cta violet-panel" data-dark
         initial={{ clipPath: 'inset(12% 8% 12% 8% round 48px)' }}
         whileInView={{ clipPath: 'inset(0% 0% 0% 0% round 32px)' }}
         viewport={{ once: true, margin: '-10% 0px' }} transition={{ duration: 1.2, ease }}>
-        <div className="mesh" aria-hidden="true"><span className="blob b1" /><span className="blob b3" /></div>
+        <div className="mesh" aria-hidden="true"><span className="blob b1" /><span className="blob b2" /></div>
         <div className="grain" aria-hidden="true" />
         <SplitText className="cta-title" text="Start your study abroad journey today" />
         <Reveal as="p" className="lede light" delay={0.2}>Book a free consultation with our counselors and take the first step.</Reveal>
         <Reveal delay={0.3} className="cta-actions">
           <Magnetic strength={0.4}>
-            <a href={`${SITE}/contact/`} className="btn-orb" data-cursor="Go">Get Started</a>
+            <a href="/contact" className="btn-orb">Get Started</a>
           </Magnetic>
         </Reveal>
       </motion.div>

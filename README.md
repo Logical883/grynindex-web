@@ -22,9 +22,10 @@ npm run dev
 | --- | --- |
 | `src/data.js` | All site copy, links and image references, taken from the live home page |
 | `src/components/Nav.jsx` | Floating nav with mega menus (Services, Study Locations) and a full-screen mobile menu |
-| `src/components/Hero.jsx` | Hero panel, image collage with mouse parallax, service slider, quick finder bar |
+| `src/components/Hero.jsx` | Violet hero panel, service slider, quick finder bar |
 | `src/components/Sections.jsx` | Stats, Services, How We Work (sticky stepper), Destinations carousel, Why Us, Events, Testimonial, CTA |
 | `src/components/Footer.jsx` | Footer with social links |
+| `src/components/NotReady.jsx` | Placeholder shown for every route except `/` |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
 | `src/styles.css` | Brand tokens and all styles |
 | `public/images/` | Images downloaded from the live site |
@@ -37,12 +38,13 @@ npm run dev
 | Purple (secondary) | `#7C1D96` |
 | Pink (accent) | `#CC3366` |
 | Coral (accent) | `#FB7751` |
-| Body font | Poppins |
-| Display font | Instrument Serif |
+| Font | Plus Jakarta Sans |
 
 ## Status
 
-Only the home page is done. The other nav links still point to the live site's pages until those are rebuilt.
+Only the home page is done. Every other route (`/services`, `/about`, `/contact`, `/destinations/uk`, ...) shows a "Not yet developed" page. Nothing links to the live site.
+
+Design rules: violet and black are the only gradient pair; green, coral and pink are never blended together; buttons have no shadows.
 
 Content notes for the client:
 - Several service and destination blurbs were cut off mid-sentence on the live site; here they end at the last complete clause.

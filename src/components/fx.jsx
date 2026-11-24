@@ -115,14 +115,14 @@ export function Tilt({ children, className, max = 8, ...rest }) {
   )
 }
 
-/* Custom cursor: a dot plus a trailing ring that grows over interactive
-   elements and shows a label over anything with data-cursor="Label". */
+/* Custom cursor: a dot plus a trailing ring that grows over links and buttons.
+   Solid colors only: ink on light sections, cream on dark ([data-dark]) ones. */
 export function Cursor() {
   const x = useMotionValue(-100)
   const y = useMotionValue(-100)
   const rx = useSpring(x, { stiffness: 260, damping: 26, mass: 0.6 })
   const ry = useSpring(y, { stiffness: 260, damping: 26, mass: 0.6 })
-  const [state, setState] = useState({ hover: false, label: '', down: false, hidden: true, dark: false })
+  const [state, setState] = useState({ hover: false, down: false, hidden: true, dark: false })
   const [enabled] = useState(
     () => window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -134,10 +134,9 @@ export function Cursor() {
     const move = (e) => {
       x.set(e.clientX)
       y.set(e.clientY)
-      const t = e.target.closest?.('a, button, [data-cursor], input, select, textarea')
-      const labelEl = e.target.closest?.('[data-cursor]')
+      const hover = !!e.target.closest?.('a, button, input, select, textarea')
       const dark = !!e.target.closest?.('[data-dark]')
-      setState((s) => ({ ...s, hidden: false, hover: !!t, label: labelEl?.dataset.cursor || '', dark }))
+      setState((s) => (s.hover === hover && s.dark === dark && !s.hidden ? s : { ...s, hidden: false, hover, dark }))
     }
     const down = () => setState((s) => ({ ...s, down: true }))
     const up = () => setState((s) => ({ ...s, down: false }))
@@ -156,23 +155,21 @@ export function Cursor() {
   }, [enabled, x, y])
 
   if (!enabled) return null
-  const size = state.label ? 92 : state.hover ? 56 : 34
+  const tone = state.dark ? 'on-dark' : ''
   return (
     <>
       <motion.div
-        className={`cursor-ring ${state.label ? 'has-label' : ''} ${state.dark ? 'on-dark' : ''}`}
+        className={`cursor-ring ${tone} ${state.hover ? 'is-hover' : ''}`}
         style={{ x: rx, y: ry }}
-        animate={{ width: size, height: size, opacity: state.hidden ? 0 : 1, scale: state.down ? 0.85 : 1 }}
+        animate={{ width: state.hover ? 56 : 34, height: state.hover ? 56 : 34, opacity: state.hidden ? 0 : 1, scale: state.down ? 0.85 : 1 }}
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-      >
-        {state.label && <span>{state.label}</span>}
-      </motion.div>
-      <motion.div className={`cursor-dot ${state.dark ? 'on-dark' : ''}`} style={{ x, y }} animate={{ opacity: state.hidden || state.label ? 0 : 1 }} />
+      />
+      <motion.div className={`cursor-dot ${tone}`} style={{ x, y }} animate={{ opacity: state.hidden ? 0 : 1 }} />
     </>
   )
 }
 
-/* Thin brand-gradient bar showing page scroll progress. */
+/* Thin violet bar showing page scroll progress. */
 export function ScrollProgress({ progress }) {
   return <motion.div className="scroll-progress" style={{ scaleX: progress }} />
 }

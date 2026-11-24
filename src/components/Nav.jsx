@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X, CalendarDays } from 'lucide-react'
-import { nav, destinations, event, SITE, img } from '../data'
+import { nav, destinations, event, img, sec } from '../data'
 import { Magnetic } from './fx'
 
 const regions = [
@@ -38,7 +38,7 @@ function ServicesPanel({ close }) {
             </a>
           ))}
         </div>
-        <a href="#events" className="mega-feature" onClick={close}>
+        <a href={sec('events')} className="mega-feature" onClick={close}>
           <img src={event.flyer} alt="" />
           <span>
             <em className="pill-soft"><CalendarDays size={12} /> Free event</em>
@@ -72,7 +72,7 @@ function DestinationsPanel({ close }) {
         </div>
       </div>
       <div className="mega-right">
-        <a href="#destinations" className="mega-feature tall" onClick={close}>
+        <a href={sec('destinations')} className="mega-feature tall" onClick={close}>
           <img src={img('Canada.jpg')} alt="" />
           <span>
             <em className="pill-soft">7 destinations</em>
@@ -119,12 +119,12 @@ export default function Nav() {
       onMouseLeave={leave}
     >
       <nav className="nav" aria-label="Main">
-        <a href="#top" className="brand" aria-label="GrynIndex home" onClick={close}>
+        <a href={sec('top')} className="brand" aria-label="GrynIndex home" onClick={close}>
           <img src={img('grynindex-logo-trim.png')} alt="Gryn Index Initiative" />
         </a>
 
         <ul className="nav-links">
-          <li><a href="#top">Home</a></li>
+          <li><a href={sec('top')}>Home</a></li>
           {[['services', 'Services'], ['destinations', 'Study Locations']].map(([k, label]) => (
             <li key={k} onMouseEnter={() => enter(k)}>
               <button className={open === k ? 'active' : ''} aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)}>
@@ -132,15 +132,15 @@ export default function Nav() {
               </button>
             </li>
           ))}
-          <li onMouseEnter={() => enter(null)}><a href="#events">Events</a></li>
-          <li onMouseEnter={() => enter(null)}><a href={`${SITE}/accommodation/`}>Accommodation</a></li>
-          <li onMouseEnter={() => enter(null)}><a href={`${SITE}/about-us/`}>About Us</a></li>
+          <li onMouseEnter={() => enter(null)}><a href={sec('events')}>Events</a></li>
+          <li onMouseEnter={() => enter(null)}><a href={'/accommodation'}>Accommodation</a></li>
+          <li onMouseEnter={() => enter(null)}><a href={'/about'}>About Us</a></li>
         </ul>
 
         <div className="nav-cta">
-          <a href={`${SITE}/contact/`} className="nav-plain">Contact</a>
+          <a href={'/contact'} className="nav-plain">Contact</a>
           <Magnetic strength={0.25}>
-            <a href={`${SITE}/contact/`} className="btn btn-dark btn-sm">Get Started</a>
+            <a href={'/contact'} className="btn btn-dark btn-sm">Get Started</a>
           </Magnetic>
           <button className="burger" aria-label={mobile ? 'Close menu' : 'Open menu'} onClick={() => setMobile(!mobile)}>
             {mobile ? <X size={20} /> : <Menu size={20} />}
@@ -179,9 +179,9 @@ export default function Nav() {
             data-lenis-prevent
           >
             {[
-              ['Home', '#top'], ['Our Services', '#services'], ['How We Work', '#process'],
-              ['Study Locations', '#destinations'], ['Events', '#events'],
-              ['Accommodation', `${SITE}/accommodation/`], ['About Us', `${SITE}/about-us/`], ['Contact', `${SITE}/contact/`],
+              ['Home', sec('top')], ['Our Services', sec('services')], ['How We Work', sec('process')],
+              ['Study Locations', sec('destinations')], ['Events', sec('events')],
+              ['Accommodation', '/accommodation'], ['About Us', '/about'], ['Contact', '/contact'],
             ].map(([label, href], i) => (
               <motion.a
                 key={label}
@@ -194,7 +194,7 @@ export default function Nav() {
                 {label} <ArrowRight size={20} />
               </motion.a>
             ))}
-            <a href={`${SITE}/contact/`} className="btn btn-green" onClick={close}>Start your journey</a>
+            <a href={'/contact'} className="btn btn-green" onClick={close}>Start your journey</a>
           </motion.div>
         )}
       </AnimatePresence>

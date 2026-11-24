@@ -1,41 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useMotionValue, useScroll, useSpring, useTransform } from 'motion/react'
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin, GraduationCap, Search, BadgeCheck } from 'lucide-react'
-import { services, destinations, img, SITE } from '../data'
+import { AnimatePresence, motion, useScroll, useTransform } from 'motion/react'
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin, GraduationCap, Search } from 'lucide-react'
+import { services, destinations, sec } from '../data'
 import { Magnetic } from './fx'
 
 const ease = [0.22, 1, 0.36, 1]
 const BIG = 'Study Abroad'
 
-function useMouseParallax() {
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const sx = useSpring(mx, { stiffness: 60, damping: 20 })
-  const sy = useSpring(my, { stiffness: 60, damping: 20 })
-  const onMove = (e) => {
-    const r = e.currentTarget.getBoundingClientRect()
-    mx.set((e.clientX - r.left) / r.width - 0.5)
-    my.set((e.clientY - r.top) / r.height - 0.5)
-  }
-  return { sx, sy, onMove }
-}
-
-function Float({ sx, sy, depth, className, children, delay = 0 }) {
-  const x = useTransform(sx, (v) => v * depth)
-  const y = useTransform(sy, (v) => v * depth)
-  return (
-    <motion.div className={className} style={{ x, y }}
-      initial={{ opacity: 0, scale: 0.9, y: 40 }} animate={{ opacity: 1, scale: 1, y: 0 }}
-      transition={{ duration: 1.1, ease, delay }}>
-      {children}
-    </motion.div>
-  )
-}
-
 function SlideCard({ i, setI }) {
   const s = services[i]
   return (
-    <div className="hero-slide-card">
+    <motion.div className="hero-slide-card" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1, duration: 1, ease }}>
       <div className="hero-slide-media">
         <AnimatePresence mode="popLayout">
           <motion.img key={s.image} src={s.image} alt=""
@@ -57,13 +32,12 @@ function SlideCard({ i, setI }) {
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 export default function Hero() {
   const ref = useRef(null)
-  const { sx, sy, onMove } = useMouseParallax()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const bigY = useTransform(scrollYProgress, [0, 1], ['0%', '45%'])
   const panelScale = useTransform(scrollYProgress, [0, 1], [1, 0.92])
@@ -78,9 +52,9 @@ export default function Hero() {
 
   return (
     <section id="top" className="hero" ref={ref}>
-      <motion.div className="hero-panel" data-dark style={{ scale: panelScale, borderRadius: panelRadius }} onMouseMove={onMove}>
+      <motion.div className="hero-panel violet-panel" data-dark style={{ scale: panelScale, borderRadius: panelRadius }}>
         <div className="mesh" aria-hidden="true">
-          <span className="blob b1" /><span className="blob b2" /><span className="blob b3" /><span className="blob b4" />
+          <span className="blob b1" /><span className="blob b2" />
         </div>
         <div className="grain" aria-hidden="true" />
         <div className="hero-grid-lines" aria-hidden="true" />
@@ -94,24 +68,6 @@ export default function Hero() {
             </motion.span>
           ))}
         </motion.div>
-
-        <div className="hero-collage">
-          <Float sx={sx} sy={sy} depth={-30} className="collage-main" delay={0.5}>
-            <img src={img('banner1.png')} alt="GrynIndex counselors with students and an accepted application" />
-          </Float>
-          <Float sx={sx} sy={sy} depth={50} className="glass-chip chip-a" delay={0.9}>
-            <span className="chip-ico green"><GraduationCap size={16} /></span>
-            <span><strong>2,000+</strong><small>Offers to top universities</small></span>
-          </Float>
-          <Float sx={sx} sy={sy} depth={70} className="glass-chip chip-b" delay={1.05}>
-            <span className="chip-ico coral"><BadgeCheck size={16} /></span>
-            <span><strong>British Council</strong><small>Certified agency</small></span>
-          </Float>
-          <Float sx={sx} sy={sy} depth={40} className="glass-chip chip-c" delay={1.2}>
-            <span className="chip-ico purple"><MapPin size={16} /></span>
-            <span><strong>11 destinations</strong><small>10 offices</small></span>
-          </Float>
-        </div>
 
         <motion.div className="hero-copy" style={{ opacity: fade }}>
           <motion.p className="hero-aside" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.9, ease }}>
@@ -133,12 +89,12 @@ export default function Hero() {
 
           <motion.div className="hero-actions" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1, duration: 0.8, ease }}>
             <Magnetic>
-              <a href="#services" className="btn-journey">
+              <a href={sec('services')} className="btn-journey">
                 <span className="arrow-disc"><ArrowRight size={16} /></span>
                 Learn More
               </a>
             </Magnetic>
-            <a href={`${SITE}/contact/`} className="link-underline light">Book a consultation</a>
+            <a href="/contact" className="link-underline light">Book a consultation</a>
           </motion.div>
         </motion.div>
 
@@ -148,7 +104,7 @@ export default function Hero() {
             {services.map((x, d) => <span key={x.title} className={d === dot ? 'on' : ''} />)}
             <button aria-label="Next" onClick={() => setDot((d) => (d + 1) % n)}><ChevronRight size={16} /></button>
           </div>
-          <a href="#finder" className="scroll-hint" aria-label="Scroll down">
+          <a href={sec('finder')} className="scroll-hint" aria-label="Scroll down">
             <span className="mouse"><span /></span>
             Scroll
           </a>
@@ -163,7 +119,7 @@ export default function Hero() {
 
 function Finder() {
   return (
-    <motion.form id="finder" className="finder" onSubmit={(e) => { e.preventDefault(); window.location.href = `${SITE}/contact/` }}
+    <motion.form id="finder" className="finder" onSubmit={(e) => { e.preventDefault(); window.location.href = '/contact' }}
       initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8, ease }}>
       <label>
         <MapPin size={16} />
