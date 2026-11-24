@@ -89,7 +89,7 @@ export default function Hero() {
 
           <motion.div className="hero-actions" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1, duration: 0.8, ease }}>
             <Magnetic>
-              <a href={sec('services')} className="btn-journey">
+              <a href="/services" className="btn-journey">
                 <span className="arrow-disc"><ArrowRight size={16} /></span>
                 Learn More
               </a>
