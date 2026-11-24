@@ -40,8 +40,10 @@ export default function Hero() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const bigY = useTransform(scrollYProgress, [0, 1], ['0%', '45%'])
-  const panelScale = useTransform(scrollYProgress, [0, 1], [1, 0.92])
-  const panelRadius = useTransform(scrollYProgress, [0, 1], [28, 56])
+  // The shrink-on-scroll effect only suits the full-height desktop hero.
+  const [compact] = useState(() => window.matchMedia('(max-width: 860px)').matches)
+  const panelScale = useTransform(scrollYProgress, [0, 1], compact ? [1, 1] : [1, 0.92])
+  const panelRadius = useTransform(scrollYProgress, [0, 1], compact ? [24, 24] : [28, 56])
   const fade = useTransform(scrollYProgress, [0, 0.6], [1, 0])
   const [dot, setDot] = useState(0)
   const n = services.length

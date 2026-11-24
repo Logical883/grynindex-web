@@ -3,6 +3,10 @@ import { motion, useInView, useMotionValue, useSpring, animate, useReducedMotion
 
 const ease = [0.22, 1, 0.36, 1]
 
+// Pointer-follow effects (magnetic, tilt) only make sense with a real mouse;
+// on touch screens a tap would make the element jump.
+const canHover = typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
 /* Fade/slide in once when scrolled into view. */
 export function Reveal({ children, delay = 0, y = 40, className, as = 'div', ...rest }) {
   const Tag = motion[as]
@@ -75,7 +79,7 @@ export function Magnetic({ children, strength = 0.35, className }) {
   const y = useMotionValue(0)
   const sx = useSpring(x, { stiffness: 200, damping: 15, mass: 0.4 })
   const sy = useSpring(y, { stiffness: 200, damping: 15, mass: 0.4 })
-  const reduce = useReducedMotion()
+  const reduce = useReducedMotion() || !canHover
   const move = (e) => {
     if (reduce) return
     const r = ref.current.getBoundingClientRect()
@@ -96,7 +100,7 @@ export function Tilt({ children, className, max = 8, ...rest }) {
   const ry = useMotionValue(0)
   const srx = useSpring(rx, { stiffness: 150, damping: 18 })
   const sry = useSpring(ry, { stiffness: 150, damping: 18 })
-  const reduce = useReducedMotion()
+  const reduce = useReducedMotion() || !canHover
   const move = (e) => {
     if (reduce) return
     const r = e.currentTarget.getBoundingClientRect()
