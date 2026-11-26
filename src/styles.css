@@ -861,6 +861,9 @@ p { margin: 0; }
 .svc-stack { display: flex; flex-direction: column; gap: 20px; }
 .svc-body { font-size: 16px; line-height: 1.75; color: var(--muted); }
 .svc-body.strong { color: var(--ink); font-weight: 600; margin-top: 18px; }
+.svc-note { display: flex; gap: 10px; align-items: flex-start; margin-top: 22px; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+.svc-note svg { flex: none; margin-top: 2px; color: var(--purple); }
+.svc-note strong { color: var(--ink); font-weight: 600; }
 .svc-list-title { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); margin-bottom: 16px; }
 .svc-icon { flex: none; width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--ink); color: var(--white); }
 

@@ -16,25 +16,25 @@ export const img = (name) => `/images/${name}`
 
 export const services = [
   {
-    title: 'Academic Counseling',
+    title: 'Academic Counselling',
     icon: GraduationCap,
     image: img('Young-Programmer.jpg'),
     href: '/services#academic-counseling',
-    text: 'Our academic counseling service is designed to provide personalized guidance and support to help you make informed decisions about your educational journey.',
+    text: 'Get expert guidance to choose the right course, institution, and academic pathway for your future.',
   },
   {
     title: 'Admission Support',
     icon: School,
     image: img('box2.jpg'),
     href: '/services#admission-support',
-    text: 'Our admission support service is tailored to streamline the university application process and maximize your chances of acceptance.',
+    text: 'Navigate university applications with professional guidance, from selecting institutions to securing admission.',
   },
   {
     title: 'Visa Application',
     icon: Stamp,
     image: img('Working-from-Home.jpg'),
     href: '/services#visa-application',
-    text: 'Navigating the visa application process can be complex and time-consuming. Our visa application service is designed to simplify this process for you.',
+    text: 'Get guided support with student visa requirements, documentation, application processes, and interview preparation.',
   },
   {
     title: 'Amazing Flight Offers',

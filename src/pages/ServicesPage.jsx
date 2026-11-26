@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { motion } from 'motion/react'
-import { ArrowRight, ArrowUpRight, Check, ChevronRight, Handshake, Quote, ShieldCheck, Sparkles } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, ChevronRight, Handshake, Info, Quote, ShieldCheck, Sparkles } from 'lucide-react'
 import { serviceSections, compliance, pageIndex } from '../servicesData'
 import { Reveal, SplitText, Magnetic } from '../components/fx'
 import { CTA } from '../components/Sections'
@@ -132,7 +132,7 @@ function SvcHead({ s, label = 'Service' }) {
   )
 }
 
-/* ---------- 01 Academic Counseling ---------- */
+/* ---------- 01 Academic Counselling ---------- */
 function Academic() {
   const s = academic
   return (
@@ -221,6 +221,7 @@ function Visa() {
           <p>{s.highlight}</p>
         </Reveal>
       </div>
+      {s.note && <Reveal as="p" className="svc-note"><Info size={16} /> <span><strong>Note:</strong> {s.note}</span></Reveal>}
     </section>
   )
 }
