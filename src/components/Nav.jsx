@@ -15,7 +15,7 @@ function ServicesPanel({ close }) {
   return (
     <div className="mega-grid">
       <div className="mega-left">
-        <p className="mega-heading">Our Services</p>
+        <a href="/services" className="mega-heading mega-heading-link" onClick={close}>Our Services <ArrowRight size={14} /></a>
         <div className="mega-tiles">
           {nav.services.map(({ title, icon: Icon, short, href }) => (
             <a key={title} href={href} className="mega-tile" onClick={close}>
@@ -179,7 +179,7 @@ export default function Nav() {
             data-lenis-prevent
           >
             {[
-              ['Home', sec('top')], ['Our Services', sec('services')], ['How We Work', sec('process')],
+              ['Home', sec('top')], ['Our Services', '/services'], ['How We Work', sec('process')],
               ['Study Locations', sec('destinations')], ['Events', sec('events')],
               ['Accommodation', '/accommodation'], ['About Us', '/about'], ['Contact', '/contact'],
             ].map(([label, href], i) => (

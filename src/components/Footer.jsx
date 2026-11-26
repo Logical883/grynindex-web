@@ -15,7 +15,7 @@ export function SocialIcon({ name }) {
 
 export default function Footer() {
   const links = [
-    ['Our Services', sec('services')], ['How We Work', sec('process')], ['Study Locations', sec('destinations')], ['Events', sec('events')],
+    ['Our Services', '/services'], ['How We Work', sec('process')], ['Study Locations', sec('destinations')], ['Events', sec('events')],
     ['Accommodation', '/accommodation'], ['About Us', '/about'], ['Blog', '/blog'], ['Contact', '/contact'],
   ]
   return (

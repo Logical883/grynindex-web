@@ -6,8 +6,10 @@ import Hero from './components/Hero'
 import { Stats, Services, Process, Destinations, Why, Events, Testimonial, CTA } from './components/Sections'
 import Footer from './components/Footer'
 import NotReady from './components/NotReady'
+import ServicesPage from './pages/ServicesPage'
 import { Cursor, ScrollProgress } from './components/fx'
-import { isHome } from './data'
+import { path } from './data'
+import { setLenis, scrollToId } from './scroll'
 
 function Home() {
   return (
@@ -25,21 +27,26 @@ function Home() {
   )
 }
 
+// Built pages; every other route shows the "Not yet developed" placeholder.
+const pages = { '/': Home, '/services': ServicesPage }
+
 export default function App() {
   const { scrollYProgress } = useScroll()
+  const Page = pages[path]
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-    const lenis = new Lenis({ duration: 1.15, smoothWheel: true, anchors: { offset: -90 } })
+    let lenis = null
     let id
-    const raf = (t) => { lenis.raf(t); id = requestAnimationFrame(raf) }
-    id = requestAnimationFrame(raf)
-    // Arriving from an inner page via "/#section": scroll there once the layout has settled.
-    if (isHome && window.location.hash) {
-      const el = document.querySelector(window.location.hash)
-      if (el) setTimeout(() => lenis.scrollTo(el, { offset: -90, immediate: true }), 100)
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      lenis = new Lenis({ duration: 1.15, smoothWheel: true, anchors: { offset: -100 } })
+      const raf = (t) => { lenis.raf(t); id = requestAnimationFrame(raf) }
+      id = requestAnimationFrame(raf)
     }
-    return () => { cancelAnimationFrame(id); lenis.destroy() }
+    setLenis(lenis)
+    // Arriving with a "#section" in the URL: jump there once the layout has settled.
+    const hash = decodeURIComponent(window.location.hash.slice(1))
+    if (hash) setTimeout(() => scrollToId(hash, { immediate: true }), 120)
+    return () => { cancelAnimationFrame(id); lenis?.destroy(); setLenis(null) }
   }, [])
 
   return (
@@ -47,7 +54,7 @@ export default function App() {
       <ScrollProgress progress={scrollYProgress} />
       <Cursor />
       <Nav />
-      <main>{isHome ? <Home /> : <NotReady path={window.location.pathname} />}</main>
+      <main>{Page ? <Page /> : <NotReady path={path} />}</main>
       <Footer />
     </>
   )

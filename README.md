@@ -25,7 +25,10 @@ npm run dev
 | `src/components/Hero.jsx` | Violet hero panel, service slider, quick finder bar |
 | `src/components/Sections.jsx` | Stats, Services, How We Work (sticky stepper), Destinations carousel, Why Us, Events, Testimonial, CTA |
 | `src/components/Footer.jsx` | Footer with social links |
-| `src/components/NotReady.jsx` | Placeholder shown for every route except `/` |
+| `src/pages/ServicesPage.jsx` | `/services`: hero, sticky section menu, one section per service, compliance |
+| `src/servicesData.js` | Services page copy, taken from the live "Our Services" page |
+| `src/scroll.js` | Shared smooth-scroll helper (`scrollToId`) |
+| `src/components/NotReady.jsx` | Placeholder shown for routes not built yet |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
 | `src/styles.css` | Brand tokens and all styles |
 | `public/images/` | Images downloaded from the live site |
@@ -42,7 +45,7 @@ npm run dev
 
 ## Status
 
-Only the home page is done. Every other route (`/services`, `/about`, `/contact`, `/destinations/uk`, ...) shows a "Not yet developed" page. Nothing links to the live site.
+Done: home (`/`) and services (`/services`, with `#academic-counseling`, `#admission-support`, `#visa-application`, `#flight-offers`, `#industry-compliance`). Every other route (`/about`, `/contact`, `/destinations/uk`, ...) shows a "Not yet developed" page. Nothing links to the live site. `vercel.json` rewrites all routes to `index.html`.
 
 Design rules: violet and black are the only gradient pair; green, coral and pink are never blended together; buttons have no shadows.
 
