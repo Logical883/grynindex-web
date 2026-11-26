@@ -9,6 +9,9 @@ import {
 export const path = typeof window === 'undefined' ? '/' : window.location.pathname.replace(/\/+$/, '') || '/'
 export const isHome = path === '/'
 export const sec = (id) => (isHome ? `#${id}` : `/#${id}`)
+
+// External student-accommodation booking portal (opens in a new tab).
+export const ACCOMMODATION_URL = 'https://grynindex-accommodation.studentacco.com/'
 export const img = (name) => `/images/${name}`
 
 export const services = [

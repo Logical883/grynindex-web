@@ -159,6 +159,15 @@ p { margin: 0; }
   transition: background 0.25s;
 }
 .nav-links a:hover, .nav-links button:hover, .nav-links button.active { background: rgba(19, 18, 18, 0.06); }
+.nav-links a, .nav-links button, .nav-cta .btn { white-space: nowrap; }
+.nav-cta .btn svg { flex: none; }
+/* Small desktops: tighten the 7 links so they stay on one line */
+@media (max-width: 1360px) {
+  .nav { gap: 16px; }
+  .nav-links { gap: 0; }
+  .nav-links a, .nav-links button { padding: 10px 10px; font-size: 14px; }
+  .nav-cta .btn-sm { padding: 11px 16px; }
+}
 .chev { transition: transform 0.3s var(--ease); }
 .nav-links button.active .chev { transform: rotate(180deg); }
 .nav-cta { margin-left: auto; display: flex; align-items: center; gap: 8px; }

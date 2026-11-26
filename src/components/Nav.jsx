@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X, CalendarDays } from 'lucide-react'
-import { nav, destinations, event, img, sec } from '../data'
+import { nav, destinations, event, img, sec, ACCOMMODATION_URL } from '../data'
 import { Magnetic } from './fx'
 
 const regions = [
@@ -124,7 +124,9 @@ export default function Nav() {
         </a>
 
         <ul className="nav-links">
-          <li><a href={sec('top')}>Home</a></li>
+          <li onMouseEnter={() => enter(null)}><a href={sec('top')}>Home</a></li>
+          <li onMouseEnter={() => enter(null)}><a href="/about">About Us</a></li>
+          <li onMouseEnter={() => enter(null)}><a href={sec('events')}>Events</a></li>
           {[['services', 'Services'], ['destinations', 'Study Locations']].map(([k, label]) => (
             <li key={k} onMouseEnter={() => enter(k)}>
               <button className={open === k ? 'active' : ''} aria-expanded={open === k} onClick={() => setOpen(open === k ? null : k)}>
@@ -132,15 +134,15 @@ export default function Nav() {
               </button>
             </li>
           ))}
-          <li onMouseEnter={() => enter(null)}><a href={sec('events')}>Events</a></li>
-          <li onMouseEnter={() => enter(null)}><a href={'/accommodation'}>Accommodation</a></li>
-          <li onMouseEnter={() => enter(null)}><a href={'/about'}>About Us</a></li>
+          <li onMouseEnter={() => enter(null)}><a href="/accommodation">Accommodation</a></li>
+          <li onMouseEnter={() => enter(null)}><a href="/contact">Contact</a></li>
         </ul>
 
         <div className="nav-cta">
-          <a href={'/contact'} className="nav-plain">Contact</a>
           <Magnetic strength={0.25}>
-            <a href={'/contact'} className="btn btn-dark btn-sm">Get Started</a>
+            <a href={ACCOMMODATION_URL} target="_blank" rel="noopener noreferrer" className="btn btn-dark btn-sm">
+              Get Accommodation <ArrowUpRight size={15} />
+            </a>
           </Magnetic>
           <button className="burger" aria-label={mobile ? 'Close menu' : 'Open menu'} onClick={() => setMobile(!mobile)}>
             {mobile ? <X size={20} /> : <Menu size={20} />}
@@ -179,9 +181,9 @@ export default function Nav() {
             data-lenis-prevent
           >
             {[
-              ['Home', sec('top')], ['Our Services', '/services'], ['How We Work', sec('process')],
-              ['Study Locations', sec('destinations')], ['Events', sec('events')],
-              ['Accommodation', '/accommodation'], ['About Us', '/about'], ['Contact', '/contact'],
+              ['Home', sec('top')], ['About Us', '/about'], ['Events', sec('events')],
+              ['Services', '/services'], ['Study Locations', sec('destinations')],
+              ['Accommodation', '/accommodation'], ['Contact', '/contact'],
             ].map(([label, href], i) => (
               <motion.a
                 key={label}
@@ -194,7 +196,9 @@ export default function Nav() {
                 {label} <ArrowRight size={20} />
               </motion.a>
             ))}
-            <a href={'/contact'} className="btn btn-green" onClick={close}>Start your journey</a>
+            <a href={ACCOMMODATION_URL} target="_blank" rel="noopener noreferrer" className="btn btn-green" onClick={close}>
+              Get Accommodation <ArrowUpRight size={16} />
+            </a>
           </motion.div>
         )}
       </AnimatePresence>
