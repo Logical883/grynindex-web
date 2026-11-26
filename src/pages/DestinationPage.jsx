@@ -184,11 +184,67 @@ function PathwayCard() {
 // "in the United Kingdom" / "in Canada"
 const place = (d) => (/^United /.test(d.name) ? `the ${d.name}` : d.name)
 
+const MONTH_ORDER = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+/* Direct universities with tuition deposit, instalment plan and intakes; searchable and filterable by intake. */
+function DirectBoard({ rows }) {
+  const [query, setQuery] = useState('')
+  const [month, setMonth] = useState('All')
+  const months = useMemo(() => MONTH_ORDER.filter((m) => rows.some((r) => r.intakes.includes(m))), [rows])
+  const q = query.trim().toLowerCase()
+  const shown = rows.filter((r) => (!q || r.name.toLowerCase().includes(q)) && (month === 'All' || r.intakes.includes(month)))
+
+  return (
+    <>
+      <div className="school-toolbar direct-toolbar">
+        <div className="intake-filter" role="group" aria-label="Filter by intake month">
+          <span className="intake-label">Intake</span>
+          {['All', ...months].map((m) => (
+            <button key={m} type="button" className={m === month ? 'on' : ''} aria-pressed={m === month} onClick={() => setMonth(m)}>
+              {m === 'All' ? 'All' : m.slice(0, 3)}
+            </button>
+          ))}
+        </div>
+        <label className="school-search">
+          <Search size={18} />
+          <span className="sr">Search direct universities</span>
+          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search direct universities" />
+          {query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search"><X size={16} /></button>}
+        </label>
+      </div>
+
+      <div className="school-board direct-board">
+        <table className="direct-table">
+          <thead>
+            <tr><th scope="col">University</th><th scope="col">Tuition deposit</th><th scope="col">Instalment plan</th><th scope="col">Intakes</th></tr>
+          </thead>
+          <tbody>
+            {shown.map((r) => (
+              <tr key={r.name}>
+                <th scope="row">{r.name}</th>
+                <td data-label="Tuition deposit">{r.deposit}</td>
+                <td data-label="Instalment plan">{r.instalments}</td>
+                <td data-label="Intakes">
+                  <span className="intake-chips">
+                    {r.intakes.map((m) => <em key={m} className={m === month ? 'hit' : ''} title={m}>{m.slice(0, 3)}</em>)}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {shown.length === 0 && <p className="school-empty">No direct universities match{q ? ` “${query}”` : ''}{month !== 'All' ? ` with a ${month} intake` : ''}.</p>}
+      </div>
+      <p className="direct-footnote">Deposits, instalment plans and intakes can change. Speak to our counsellors to confirm the latest details before applying.</p>
+    </>
+  )
+}
+
 /* Direct universities are the main list; third-party partners are opened on request. */
 function DirectPartners({ d, direct }) {
   const [open, setOpen] = useState(false)
   const all = d.groups ? d.groups.flatMap((g) => g.schools) : d.schools
-  const directKeys = useMemo(() => new Set(direct.map(schoolKey)), [direct])
+  const directKeys = useMemo(() => new Set(direct.map((r) => schoolKey(r.name))), [direct])
   const others = useMemo(() => all.filter((n) => !directKeys.has(schoolKey(n))), [all, directKeys])
 
   const toggle = () => {
@@ -205,11 +261,11 @@ function DirectPartners({ d, direct }) {
             <SplitText className="display" text={`Study directly with our universities in ${place(d)}`} />
           </div>
           <Reveal as="p" className="lede" delay={0.1}>
-            {direct.length} universities in {place(d)} that Gryn Index partners with directly.
+            {direct.length} universities in {place(d)} that Gryn Index partners with directly, with their tuition deposit, instalment plan and intakes.
           </Reveal>
         </div>
 
-        <SchoolBoard names={[...direct].sort((a, b) => a.localeCompare(b))} label="direct universities" preview={Infinity} />
+        <DirectBoard rows={direct} />
 
         <Reveal className="more-schools-cta">
           <div>

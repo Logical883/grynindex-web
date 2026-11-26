@@ -58,6 +58,6 @@ Content notes for the client:
 - No phone number or email appears on the home page. Add them to the footer once confirmed.
 - Destination copy fixes vs the live site: Canada said "You need a valid UK study visa" (now "Canadian study visa"); UK said "intentional students" (now "international students").
 - Ireland's live page has only one quick fact; ask the client for more.
-- UK direct schools: names tidied from the sheet (e.g. LINCON BISHOP -> Lincoln Bishop, RORBERT -> Robert Gordon, UNIVERSITY OF COVENTRY -> Coventry University); University of Law left out until its signing completes. Tuition deposit, instalment and intake columns are not used yet.
+- UK direct schools: names tidied from the sheet (e.g. LINCON BISHOP -> Lincoln Bishop, RORBERT -> Robert Gordon, UNIVERSITY OF COVENTRY -> Coventry University); University of Law left out until its signing completes. Their tuition deposit, instalment plan and intakes are shown in a table with an intake-month filter (0.5 in the deposit column is shown as "50% of tuition").
 - Other destinations show their single partner list until direct lists arrive.
 - "Get Accommodation" in the nav opens https://grynindex-accommodation.studentacco.com/ in a new tab.

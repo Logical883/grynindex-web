@@ -1120,6 +1120,36 @@ p { margin: 0; }
 
 .school-toolbar { display: flex; justify-content: flex-end; margin-bottom: 16px; }
 
+/* Direct universities table */
+.direct-toolbar { justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.intake-filter { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.intake-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+.intake-filter button {
+  padding: 8px 14px; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: var(--ink);
+  background: var(--white); box-shadow: 0 0 0 1px var(--line); transition: background 0.25s, color 0.25s;
+}
+.intake-filter button:hover { background: var(--paper); }
+.intake-filter button.on { background: var(--ink); color: var(--white); box-shadow: none; }
+.direct-board { padding: clamp(8px, 1.4vw, 16px) clamp(16px, 2.4vw, 28px); }
+.direct-table { width: 100%; border-collapse: collapse; }
+.direct-table thead th {
+  text-align: left; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple);
+  padding: 14px 12px; border-bottom: 1px solid var(--line);
+}
+.direct-table tbody tr { border-bottom: 1px solid var(--line); transition: background 0.2s; }
+.direct-table tbody tr:last-child { border-bottom: 0; }
+.direct-table tbody tr:hover { background: var(--paper); }
+.direct-table tbody th, .direct-table td { padding: 15px 12px; text-align: left; vertical-align: middle; font-size: 14.5px; color: var(--ink); }
+.direct-table tbody th { font-weight: 700; letter-spacing: -0.01em; width: 34%; }
+.direct-table td { color: var(--text); font-variant-numeric: tabular-nums; }
+.intake-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.intake-chips em {
+  font-style: normal; font-size: 12px; font-weight: 600; padding: 4px 9px; border-radius: 999px;
+  background: var(--paper); color: var(--ink); box-shadow: 0 0 0 1px var(--line);
+}
+.intake-chips em.hit { background: var(--ink); color: var(--white); box-shadow: none; }
+.direct-footnote { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
 /* "Can't find your university?" → reveals third-party partner schools */
 .more-schools-cta {
   display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 28px;
@@ -1176,6 +1206,15 @@ p { margin: 0; }
   .help-grid { grid-template-columns: 1fr; gap: 12px; }
   .help-card { padding: 20px; }
   .more-schools-cta .btn { width: 100%; justify-content: center; }
+  .direct-toolbar { flex-direction: column; align-items: stretch; }
+  .direct-table thead { display: none; }
+  .direct-table, .direct-table tbody, .direct-table tr { display: block; width: 100%; }
+  .direct-table tbody tr { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; padding: 16px 4px; }
+  .direct-table tbody tr:hover { background: none; }
+  .direct-table tbody th { grid-column: 1 / -1; width: auto; padding: 0; font-size: 15.5px; }
+  .direct-table td { display: flex; flex-direction: column; gap: 3px; padding: 0; font-size: 14px; }
+  .direct-table td::before { content: attr(data-label); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .direct-table td[data-label="Intakes"] { grid-column: 1 / -1; }
 }
 
 /* ---------- Touch screens: iOS keeps :hover "stuck" after a tap, so undo hover-only effects ---------- */
