@@ -43,7 +43,7 @@ export function Services() {
           <SplitText className="display" text="Everything you need, from first question to boarding pass" />
         </div>
         <Reveal as="p" className="lede" delay={0.2}>
-          GrynIndex is a fully integrated education consulting agency. One team guides your entire study abroad process.
+          Gryn Index is a fully integrated education consulting agency. One team guides your entire study abroad process.
         </Reveal>
       </div>
 
@@ -173,10 +173,10 @@ export function Why() {
   return (
     <section className="section container why" ref={ref}>
       <div className="why-copy">
-        <Eyebrow>Why GrynIndex</Eyebrow>
+        <Eyebrow>Why Gryn Index</Eyebrow>
         <SplitText className="display" text="Elevate your study abroad journey" />
         <Reveal as="p" className="lede">
-          At GRYN INDEX INITIATIVE, we simplify your path to global education by providing seamless international education processes with expert guidance.
+          At Gryn Index, we simplify your path to global education by providing seamless international education processes with expert guidance.
         </Reveal>
         <div className="why-points">
           {points.map(({ icon: Icon, title, text }, i) => (
@@ -191,7 +191,7 @@ export function Why() {
 
       <Reveal className="why-visual">
         <motion.div className="collage" style={{ y }}>
-          <img src={img('banner1.png')} alt="GrynIndex counselors with students, and an accepted university application" />
+          <img src={img('banner1.png')} alt="Gryn Index counselors with students, and an accepted university application" />
         </motion.div>
         {chips.map(({ cls, icon: Icon, title, sub }, i) => (
           <motion.div key={cls} className={`glass-chip ${cls}`} style={{ y: i === 1 ? y : chipY }}>
@@ -219,7 +219,7 @@ export function Events() {
         <div className="event-feature">
           <Reveal className="event-flyer">
             <Tilt max={5}>
-              <img src={event.flyer} alt="The Gryn Initiative, Building Values event flyer" />
+              <img src={event.flyer} alt="Gryn Index, Building Values event flyer" />
             </Tilt>
             <span className="badge-free"><Ticket size={14} /> Registration is free</span>
           </Reveal>

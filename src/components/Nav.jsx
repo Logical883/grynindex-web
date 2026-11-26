@@ -119,7 +119,7 @@ export default function Nav() {
       onMouseLeave={leave}
     >
       <nav className="nav" aria-label="Main">
-        <a href={sec('top')} className="brand" aria-label="GrynIndex home" onClick={close}>
+        <a href={sec('top')} className="brand" aria-label="Gryn Index home" onClick={close}>
           <img src={img('gryn-logo.svg')} alt="Gryn Index Initiative" />
         </a>
 

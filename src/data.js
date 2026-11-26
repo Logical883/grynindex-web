@@ -99,7 +99,7 @@ export const stats = [
 
 export const event = {
   title: 'Building Values',
-  kicker: 'Join us for an immersive experience at the Gryn Initiative',
+  kicker: 'Join us for an immersive experience at Gryn Index',
   date: 'June 17th',
   time: '10:00 AM prompt',
   venue: 'Catholic Church of the Holy Spirit, Omole Estate',

@@ -23,7 +23,7 @@ export default function Footer() {
       <div className="container footer-top">
         <div className="footer-brand">
           <span className="footer-logo"><img src={img('gryn-logo-light.svg')} alt="Gryn Index Initiative" /></span>
-          <p>At GRYN INDEX INITIATIVE, we simplify your path to global education by providing seamless international education processes with expert guidance.</p>
+          <p>At Gryn Index, we simplify your path to global education by providing seamless international education processes with expert guidance.</p>
         </div>
         <div>
           <p className="footer-h">Quick Links</p>
@@ -46,7 +46,7 @@ export default function Footer() {
       </div>
       <div className="footer-word" aria-hidden="true">GRYN INDEX</div>
       <div className="container footer-bottom">
-        <span>©2026 Gryn Index Initiative. All Rights Reserved.</span>
+        <span>©2026 Gryn Index. All Rights Reserved.</span>
         <a href={sec('top')} className="to-top">Back to top <ArrowUp size={14} /></a>
       </div>
     </footer>

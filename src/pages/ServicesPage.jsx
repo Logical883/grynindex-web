@@ -280,7 +280,7 @@ function Compliance() {
           <Reveal as="p" className="svc-body" delay={0.15}>{s.body}</Reveal>
         </div>
         <Reveal className="compliance-photo" delay={0.1}>
-          <img src={s.image} alt="A GrynIndex consultant" loading="lazy" />
+          <img src={s.image} alt="A Gryn Index consultant" loading="lazy" />
           <span className="compliance-chip"><ShieldCheck size={16} /> Fully compliant, professionally regulated</span>
         </Reveal>
       </div>

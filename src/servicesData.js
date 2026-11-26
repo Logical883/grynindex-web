@@ -92,7 +92,7 @@ export const compliance = {
   short: 'British Council, ICEF and ABCC certified.',
   icon: ShieldCheck,
   image: img('compliance.jpg'),
-  lede: 'At Gryn Index Initiative, we don’t just promise quality we prove it. Every member of our team operates to the highest international standards, backed by globally recognized certifications that protect you, your application, and your future.',
+  lede: 'At Gryn Index, we don’t just promise quality we prove it. Every member of our team operates to the highest international standards, backed by globally recognized certifications that protect you, your application, and your future.',
   statement: 'We are proud to be a British Council Certified, ICEF Certified, and ABC Certified agency.',
   quote: 'We adhere to the National Code of Ethical Practice',
   body: 'These credentials aren’t just badges; they are your guarantee that you are working with a fully compliant, professionally regulated education consultancy that understands the intricate details of global admissions and visa compliance.',
