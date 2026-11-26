@@ -29,6 +29,7 @@ npm run dev
 | `src/servicesData.js` | Services page copy, taken from the live "Our Services" page |
 | `src/scroll.js` | Shared smooth-scroll helper (`scrollToId`) |
 | `src/pages/DestinationPage.jsx` | `/destinations/:slug` template: hero with at-a-glance figures, quick facts, searchable partner schools, how we help, other destinations |
+| `src/directSchools.js` | Direct partner universities per destination (UK so far, from the client's sheet). Shown first; other partners open on request |
 | `src/destinationsData.js` | Generated from the live destination pages (facts verbatim; school lists de-duplicated and sorted) |
 | `src/components/NotReady.jsx` | Placeholder shown for routes not built yet |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
@@ -57,4 +58,6 @@ Content notes for the client:
 - No phone number or email appears on the home page. Add them to the footer once confirmed.
 - Destination copy fixes vs the live site: Canada said "You need a valid UK study visa" (now "Canadian study visa"); UK said "intentional students" (now "international students").
 - Ireland's live page has only one quick fact; ask the client for more.
+- UK direct schools: names tidied from the sheet (e.g. LINCON BISHOP -> Lincoln Bishop, RORBERT -> Robert Gordon, UNIVERSITY OF COVENTRY -> Coventry University); University of Law left out until its signing completes. Tuition deposit, instalment and intake columns are not used yet.
+- Other destinations show their single partner list until direct lists arrive.
 - "Get Accommodation" in the nav opens https://grynindex-accommodation.studentacco.com/ in a new tab.

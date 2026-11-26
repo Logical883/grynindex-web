@@ -1,14 +1,21 @@
 import { useMemo, useState } from 'react'
-import { motion } from 'motion/react'
-import { ArrowRight, ArrowUpRight, ChevronDown, ChevronRight, Globe, Search, X } from 'lucide-react'
+import { AnimatePresence, motion } from 'motion/react'
+import { ArrowRight, ArrowUpRight, BadgeCheck, ChevronDown, ChevronRight, Globe, Search, X } from 'lucide-react'
 import { destinationPages, pathwayPartnersImage } from '../destinationsData'
 import { serviceSections } from '../servicesData'
 import { Reveal, SplitText, Magnetic } from '../components/fx'
 import { CTA } from '../components/Sections'
 import { scrollToId } from '../scroll'
+import { directSchools, schoolKey } from '../directSchools'
 
 const ease = [0.22, 1, 0.36, 1]
 const PREVIEW = 18 // schools shown before "Show all"
+
+// Destinations with direct universities show that count instead of the full partner count.
+const glanceFor = (d) => {
+  const direct = directSchools[d.slug]
+  return direct?.length ? [...d.glance.slice(0, -1), [String(direct.length), 'Direct partner universities']] : d.glance
+}
 
 /* ---------- Hero ---------- */
 function DestHero({ d }) {
@@ -56,7 +63,7 @@ function DestHero({ d }) {
               </div>
               <p className="glance-label">At a glance</p>
               <div className="glance-grid">
-                {d.glance.map(([value, label]) => (
+                {glanceFor(d).map(([value, label]) => (
                   <div className="glance-item" key={label}>
                     <strong>{value}</strong>
                     <span>{label}</span>
@@ -105,7 +112,7 @@ function Facts({ d }) {
   )
 }
 
-/* ---------- Partner schools: search, A–Z groups, expandable ---------- */
+/* ---------- Partner schools ---------- */
 function groupByLetter(names) {
   const groups = {}
   names.forEach((n) => {
@@ -115,69 +122,155 @@ function groupByLetter(names) {
   return Object.entries(groups).sort(([a], [b]) => a.localeCompare(b))
 }
 
-function Partners({ d }) {
+/* Searchable A–Z (or by-country) list with a "Show all" toggle. */
+function SchoolBoard({ names, groups, label = 'schools' }) {
   const [query, setQuery] = useState('')
   const [expanded, setExpanded] = useState(false)
-  const all = useMemo(() => d.groups ? d.groups.flatMap((g) => g.schools) : d.schools, [d])
   const q = query.trim().toLowerCase()
-  const matches = q ? all.filter((n) => n.toLowerCase().includes(q)) : all
-  const showAll = expanded || q || all.length <= PREVIEW
+  const matches = q ? names.filter((n) => n.toLowerCase().includes(q)) : names
+  const showAll = expanded || q || names.length <= PREVIEW
   const visible = showAll ? matches : matches.slice(0, PREVIEW)
-  const sections = d.groups
-    ? d.groups.map((g) => [g.country, g.schools.filter((n) => visible.includes(n))]).filter(([, s]) => s.length)
+  const sections = groups
+    ? groups.map((g) => [g.country, g.schools.filter((n) => visible.includes(n))]).filter(([, list]) => list.length)
     : groupByLetter(visible)
+
+  return (
+    <>
+      {names.length > 10 && (
+        <div className="school-toolbar">
+          <label className="school-search">
+            <Search size={18} />
+            <span className="sr">Search {label}</span>
+            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={`Search ${label}`} />
+            {query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search"><X size={16} /></button>}
+          </label>
+        </div>
+      )}
+      <div className={`school-board ${showAll ? '' : 'collapsed'}`}>
+        {sections.length === 0 && <p className="school-empty">No {label} match “{query}”.</p>}
+        <div className={groups ? 'school-groups countries' : 'school-groups'}>
+          {sections.map(([heading, list]) => (
+            <div className="school-group" key={heading}>
+              <p className="school-letter">{heading}</p>
+              <ul>{list.map((n) => <li key={n}>{n}</li>)}</ul>
+            </div>
+          ))}
+        </div>
+      </div>
+      {!q && names.length > PREVIEW && (
+        <div className="school-more">
+          <button type="button" className="btn btn-dark" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
+            {expanded ? 'Show fewer' : `Show all ${names.length} ${label}`}
+            <ChevronDown size={16} className={expanded ? 'flip' : ''} />
+          </button>
+        </div>
+      )}
+    </>
+  )
+}
+
+function PathwayCard() {
+  return (
+    <Reveal className="pathway-card">
+      <div>
+        <p className="eyebrow">Pathway partners</p>
+        <h3>Admission pathways through our global partners</h3>
+      </div>
+      <img src={pathwayPartnersImage} alt="Logos of admission pathway partners including ApplyBoard, Cambridge Education Group, INTO, Navitas and Oxford International" loading="lazy" />
+    </Reveal>
+  )
+}
+
+// "in the United Kingdom" / "in Canada"
+const place = (d) => (/^United /.test(d.name) ? `the ${d.name}` : d.name)
+
+const initials = (name) =>
+  name.split(/[\s,]+/).filter((w) => w && !/^(of|the|and|london)$/i.test(w)).slice(0, 2).map((w) => w[0]).join('').toUpperCase()
+
+/* Direct universities are the main list; third-party partners are opened on request. */
+function DirectPartners({ d, direct }) {
+  const [open, setOpen] = useState(false)
+  const all = d.groups ? d.groups.flatMap((g) => g.schools) : d.schools
+  const directKeys = useMemo(() => new Set(direct.map(schoolKey)), [direct])
+  const others = useMemo(() => all.filter((n) => !directKeys.has(schoolKey(n))), [all, directKeys])
+
+  const toggle = () => {
+    setOpen((v) => !v)
+    if (!open) setTimeout(() => scrollToId('more-schools'), 80)
+  }
 
   return (
     <section id="partners" className="section partners">
       <div className="container">
-        <div className="section-head row partners-head">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Our direct universities</p>
+            <SplitText className="display" text={`Study directly with our universities in ${place(d)}`} />
+          </div>
+          <Reveal as="p" className="lede" delay={0.1}>
+            {direct.length} universities in {place(d)} that Gryn Index partners with directly.
+          </Reveal>
+        </div>
+
+        <div className="direct-grid">
+          {direct.map((name, i) => (
+            <Reveal key={name} delay={(i % 4) * 0.05} className="direct-card">
+              <span className="direct-mono" aria-hidden="true">{initials(name)}</span>
+              <span className="direct-name">{name}</span>
+              <span className="direct-badge"><BadgeCheck size={14} /> Direct partner</span>
+            </Reveal>
+          ))}
+        </div>
+
+        <Reveal className="more-schools-cta">
+          <div>
+            <h3>Can’t find your desired university among our direct schools?</h3>
+            <p>We also work with {others.length} more schools in {place(d)} through our admission pathway partners.</p>
+          </div>
+          <button type="button" className="btn btn-dark" onClick={toggle} aria-expanded={open} aria-controls="more-schools">
+            {open ? 'Hide partner schools' : 'See more partner schools'}
+            <ChevronDown size={16} className={open ? 'flip' : ''} />
+          </button>
+        </Reveal>
+
+        <AnimatePresence initial={false}>
+          {open && (
+            <motion.div id="more-schools" className="more-schools"
+              initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }}
+              transition={{ duration: 0.5, ease }}>
+              <div className="more-schools-head">
+                <p className="eyebrow">Admission pathway partners</p>
+                <h3>More partner schools in {place(d)}</h3>
+              </div>
+              <SchoolBoard names={others} label="partner schools" />
+              <PathwayCard />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  )
+}
+
+/* Destinations without a direct list yet keep the single partner list. */
+function Partners({ d }) {
+  const direct = directSchools[d.slug]
+  if (direct?.length) return <DirectPartners d={d} direct={direct} />
+  const all = d.groups ? d.groups.flatMap((g) => g.schools) : d.schools
+  return (
+    <section id="partners" className="section partners">
+      <div className="container">
+        <div className="section-head">
           <div>
             <p className="eyebrow">Admission Pathway Partners</p>
-            <SplitText className="display" text={`Partner schools in ${d.name}`} />
-            <Reveal as="p" className="lede" delay={0.1}>
-              {all.length} institutions{d.groups ? ` across ${d.groups.length} countries` : ''} we work with on admissions.
-            </Reveal>
+            <SplitText className="display" text={`Partner schools in ${place(d)}`} />
           </div>
-          {all.length > 10 && (
-            <label className="school-search">
-              <Search size={18} />
-              <span className="sr">Search partner schools</span>
-              <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search schools" />
-              {query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search"><X size={16} /></button>}
-            </label>
-          )}
+          <Reveal as="p" className="lede" delay={0.1}>
+            {all.length} institutions{d.groups ? ` across ${d.groups.length} countries` : ''} we work with on admissions.
+          </Reveal>
         </div>
-
-        <div className={`school-board ${showAll ? '' : 'collapsed'}`}>
-          {sections.length === 0 && <p className="school-empty">No partner schools match “{query}”.</p>}
-          <div className={d.groups ? 'school-groups countries' : 'school-groups'}>
-            {sections.map(([label, names]) => (
-              <div className="school-group" key={label}>
-                <p className="school-letter">{label}</p>
-                <ul>
-                  {names.map((n) => <li key={n}>{n}</li>)}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {!q && all.length > PREVIEW && (
-          <div className="school-more">
-            <button type="button" className="btn btn-dark" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
-              {expanded ? 'Show fewer' : `Show all ${all.length} schools`}
-              <ChevronDown size={16} className={expanded ? 'flip' : ''} />
-            </button>
-          </div>
-        )}
-
-        <Reveal className="pathway-card">
-          <div>
-            <p className="eyebrow">Pathway partners</p>
-            <h3>Admission pathways through our global partners</h3>
-          </div>
-          <img src={pathwayPartnersImage} alt="Logos of admission pathway partners including ApplyBoard, Cambridge Education Group, INTO, Navitas and Oxford International" loading="lazy" />
-        </Reveal>
+        <SchoolBoard names={all} groups={d.groups} />
+        <PathwayCard />
       </div>
     </section>
   )
