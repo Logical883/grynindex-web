@@ -120,7 +120,7 @@ export default function Nav() {
     >
       <nav className="nav" aria-label="Main">
         <a href={sec('top')} className="brand" aria-label="GrynIndex home" onClick={close}>
-          <img src={img('grynindex-logo-trim.png')} alt="Gryn Index Initiative" />
+          <img src={img('gryn-logo.svg')} alt="Gryn Index Initiative" />
         </a>
 
         <ul className="nav-links">

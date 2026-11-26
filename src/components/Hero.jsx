@@ -5,7 +5,7 @@ import { services, destinations, sec } from '../data'
 import { Magnetic } from './fx'
 
 const ease = [0.22, 1, 0.36, 1]
-const BIG = 'Study Abroad'
+const BIG = ['International', 'Student', 'Recruitment']
 
 function SlideCard({ i, setI }) {
   const s = services[i]
@@ -62,12 +62,12 @@ export default function Hero() {
         <div className="hero-grid-lines" aria-hidden="true" />
 
         <motion.div className="hero-big" style={{ y: bigY }} aria-hidden="true">
-          {BIG.split('').map((ch, i) => (
-            ch === ' ' ? <span key={i} className="sp">{'\u00A0'}</span> :
-            <motion.span key={i} initial={{ y: '100%', opacity: 0 }} animate={{ y: '0%', opacity: 1 }}
-              transition={{ duration: 1.2, ease, delay: 0.15 + i * 0.045 }}>
-              {ch}
-            </motion.span>
+          {BIG.map((word, i) => (
+            <span className="big-word" key={word}>
+              <motion.span initial={{ y: '105%' }} animate={{ y: '0%' }} transition={{ duration: 1.2, ease, delay: 0.15 + i * 0.12 }}>
+                {word}
+              </motion.span>
+            </span>
           ))}
         </motion.div>
 

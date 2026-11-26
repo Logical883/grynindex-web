@@ -22,7 +22,7 @@ export default function Footer() {
     <footer className="footer" data-dark>
       <div className="container footer-top">
         <div className="footer-brand">
-          <span className="footer-logo"><img src={img('grynindex-logo-white.png')} alt="Gryn Index Initiative" /></span>
+          <span className="footer-logo"><img src={img('gryn-logo-light.svg')} alt="Gryn Index Initiative" /></span>
           <p>At GRYN INDEX INITIATIVE, we simplify your path to global education by providing seamless international education processes with expert guidance.</p>
         </div>
         <div>
