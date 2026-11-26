@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowRight, ArrowUpRight, BadgeCheck, ChevronDown, ChevronRight, Globe, Search, X } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ChevronDown, ChevronRight, Globe, Search, X } from 'lucide-react'
 import { destinationPages, pathwayPartnersImage } from '../destinationsData'
 import { serviceSections } from '../servicesData'
 import { Reveal, SplitText, Magnetic } from '../components/fx'
@@ -123,13 +123,13 @@ function groupByLetter(names) {
 }
 
 /* Searchable A–Z (or by-country) list with a "Show all" toggle. */
-function SchoolBoard({ names, groups, label = 'schools' }) {
+function SchoolBoard({ names, groups, label = 'schools', preview = PREVIEW }) {
   const [query, setQuery] = useState('')
   const [expanded, setExpanded] = useState(false)
   const q = query.trim().toLowerCase()
   const matches = q ? names.filter((n) => n.toLowerCase().includes(q)) : names
-  const showAll = expanded || q || names.length <= PREVIEW
-  const visible = showAll ? matches : matches.slice(0, PREVIEW)
+  const showAll = expanded || q || names.length <= preview
+  const visible = showAll ? matches : matches.slice(0, preview)
   const sections = groups
     ? groups.map((g) => [g.country, g.schools.filter((n) => visible.includes(n))]).filter(([, list]) => list.length)
     : groupByLetter(visible)
@@ -157,7 +157,7 @@ function SchoolBoard({ names, groups, label = 'schools' }) {
           ))}
         </div>
       </div>
-      {!q && names.length > PREVIEW && (
+      {!q && names.length > preview && (
         <div className="school-more">
           <button type="button" className="btn btn-dark" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded}>
             {expanded ? 'Show fewer' : `Show all ${names.length} ${label}`}
@@ -184,9 +184,6 @@ function PathwayCard() {
 // "in the United Kingdom" / "in Canada"
 const place = (d) => (/^United /.test(d.name) ? `the ${d.name}` : d.name)
 
-const initials = (name) =>
-  name.split(/[\s,]+/).filter((w) => w && !/^(of|the|and|london)$/i.test(w)).slice(0, 2).map((w) => w[0]).join('').toUpperCase()
-
 /* Direct universities are the main list; third-party partners are opened on request. */
 function DirectPartners({ d, direct }) {
   const [open, setOpen] = useState(false)
@@ -212,15 +209,7 @@ function DirectPartners({ d, direct }) {
           </Reveal>
         </div>
 
-        <div className="direct-grid">
-          {direct.map((name, i) => (
-            <Reveal key={name} delay={(i % 4) * 0.05} className="direct-card">
-              <span className="direct-mono" aria-hidden="true">{initials(name)}</span>
-              <span className="direct-name">{name}</span>
-              <span className="direct-badge"><BadgeCheck size={14} /> Direct partner</span>
-            </Reveal>
-          ))}
-        </div>
+        <SchoolBoard names={[...direct].sort((a, b) => a.localeCompare(b))} label="direct universities" preview={Infinity} />
 
         <Reveal className="more-schools-cta">
           <div>
