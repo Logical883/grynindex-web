@@ -28,6 +28,8 @@ npm run dev
 | `src/pages/ServicesPage.jsx` | `/services`: hero, sticky section menu, one section per service, compliance |
 | `src/servicesData.js` | Services page copy, taken from the live "Our Services" page |
 | `src/scroll.js` | Shared smooth-scroll helper (`scrollToId`) |
+| `src/pages/DestinationPage.jsx` | `/destinations/:slug` template: hero with at-a-glance figures, quick facts, searchable partner schools, how we help, other destinations |
+| `src/destinationsData.js` | Generated from the live destination pages (facts verbatim; school lists de-duplicated and sorted) |
 | `src/components/NotReady.jsx` | Placeholder shown for routes not built yet |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
 | `src/styles.css` | Brand tokens and all styles |
@@ -45,7 +47,7 @@ npm run dev
 
 ## Status
 
-Done: home (`/`) and services (`/services`, with `#academic-counseling`, `#admission-support`, `#visa-application`, `#flight-offers`, `#industry-compliance`). Every other route (`/about`, `/contact`, `/destinations/uk`, ...) shows a "Not yet developed" page. Nothing links to the live site. `vercel.json` rewrites all routes to `index.html`.
+Done: home (`/`), the seven study destinations (`/destinations/uk`, `usa`, `canada`, `ireland`, `australia`, `europe`, `new-zealand`) and services (`/services`, with `#academic-counseling`, `#admission-support`, `#visa-application`, `#flight-offers`, `#industry-compliance`). Every other route (`/about`, `/contact`, `/accommodation`, ...) shows a "Not yet developed" page. Nothing links to the live site. `vercel.json` rewrites all routes to `index.html`.
 
 Design rules: violet and black are the only gradient pair; green, coral and pink are never blended together; buttons have no shadows.
 
@@ -53,3 +55,6 @@ Content notes for the client:
 - Several service and destination blurbs were cut off mid-sentence on the live site; here they end at the last complete clause.
 - The "Building Values" event says "June 17th" with no year. Confirm the date, or replace it with the next upcoming event.
 - No phone number or email appears on the home page. Add them to the footer once confirmed.
+- Destination copy fixes vs the live site: Canada said "You need a valid UK study visa" (now "Canadian study visa"); UK said "intentional students" (now "international students").
+- Ireland's live page has only one quick fact; ask the client for more.
+- "Get Accommodation" in the nav opens https://grynindex-accommodation.studentacco.com/ in a new tab.

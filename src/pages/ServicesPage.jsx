@@ -43,7 +43,7 @@ function PageHero() {
             <motion.nav className="crumbs" aria-label="Breadcrumb" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease }}>
               <a href="/">Home</a><ChevronRight size={14} /><span aria-current="page">Our Services</span>
             </motion.nav>
-            <h1 className="page-title">
+            <h1 className="page-title" aria-label="Our Services">
               {['Our', 'Services'].map((w, i) => (
                 <span className="line-mask" key={w}>
                   <motion.span initial={{ y: '105%' }} animate={{ y: '0%' }} transition={{ duration: 1.1, ease, delay: 0.1 + i * 0.12 }}>{w}</motion.span>

@@ -7,6 +7,8 @@ import { Stats, Services, Process, Destinations, Why, Events, Testimonial, CTA }
 import Footer from './components/Footer'
 import NotReady from './components/NotReady'
 import ServicesPage from './pages/ServicesPage'
+import DestinationPage from './pages/DestinationPage'
+import { destinationBySlug } from './destinationsData'
 import { Cursor, ScrollProgress } from './components/fx'
 import { path } from './data'
 import { setLenis, scrollToId } from './scroll'
@@ -29,6 +31,7 @@ function Home() {
 
 // Built pages; every other route shows the "Not yet developed" placeholder.
 const pages = { '/': Home, '/services': ServicesPage }
+const destination = path.startsWith('/destinations/') ? destinationBySlug[path.split('/')[2]] : null
 
 export default function App() {
   const { scrollYProgress } = useScroll()
@@ -54,7 +57,9 @@ export default function App() {
       <ScrollProgress progress={scrollYProgress} />
       <Cursor />
       <Nav />
-      <main>{Page ? <Page /> : <NotReady path={path} />}</main>
+      <main>
+        {destination ? <DestinationPage destination={destination} /> : Page ? <Page /> : <NotReady path={path} />}
+      </main>
       <Footer />
     </>
   )
