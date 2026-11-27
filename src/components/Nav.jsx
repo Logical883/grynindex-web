@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
-import { ArrowRight, ArrowUpRight, ChevronDown, Menu, X, CalendarDays } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, ChevronDown, CalendarDays } from 'lucide-react'
 import { nav, destinations, event, img, sec, ACCOMMODATION_URL } from '../data'
 import { Magnetic } from './fx'
+import MobileMenu from './MobileMenu'
 
 const regions = [
   { label: 'UK & Europe', codes: ['UK', 'IE', 'EU'] },
@@ -94,7 +96,9 @@ export default function Nav() {
   const [mobile, setMobile] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [origin, setOrigin] = useState({ x: 0, y: 0 })
   const timer = useRef()
+  const burger = useRef()
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (v) => {
@@ -107,14 +111,27 @@ export default function Nav() {
     document.documentElement.style.overflow = mobile ? 'hidden' : ''
   }, [mobile])
 
+  useEffect(() => {
+    if (!mobile) return undefined
+    const mq = window.matchMedia('(min-width: 1181px)')
+    const onChange = (e) => e.matches && setMobile(false)
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [mobile])
+
   const enter = (k) => { clearTimeout(timer.current); setOpen(k) }
   const leave = () => { timer.current = setTimeout(() => setOpen(null), 160) }
-  const close = () => { setOpen(null); setMobile(false) }
+  const close = useCallback(() => { setOpen(null); setMobile(false) }, [])
+  const toggleMobile = () => {
+    const r = burger.current.getBoundingClientRect()
+    setOrigin({ x: r.left + r.width / 2, y: r.top + r.height / 2 })
+    setMobile((v) => !v)
+  }
   const Panel = open && menus[open]
 
   return (
     <motion.header
-      className={`nav-wrap ${scrolled ? 'scrolled' : ''}`}
+      className={`nav-wrap ${scrolled ? 'scrolled' : ''} ${mobile ? 'menu-open' : ''}`}
       animate={{ y: hidden ? -120 : 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       onMouseLeave={leave}
@@ -145,8 +162,8 @@ export default function Nav() {
               Get Accommodation <ArrowUpRight size={15} />
             </a>
           </Magnetic>
-          <button className="burger" aria-label={mobile ? 'Close menu' : 'Open menu'} onClick={() => setMobile(!mobile)}>
-            {mobile ? <X size={20} /> : <Menu size={20} />}
+          <button ref={burger} className={`burger ${mobile ? 'is-open' : ''}`} aria-label={mobile ? 'Close menu' : 'Open menu'} aria-expanded={mobile} aria-controls="mobile-menu" onClick={toggleMobile}>
+            <span className="burger-line" /><span className="burger-line" />
           </button>
         </div>
       </nav>
@@ -171,38 +188,7 @@ export default function Nav() {
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {mobile && (
-          <motion.div
-            className="mobile-menu"
-            initial={{ clipPath: 'inset(0 0 100% 0 round 24px)' }}
-            animate={{ clipPath: 'inset(0 0 0% 0 round 24px)' }}
-            exit={{ clipPath: 'inset(0 0 100% 0 round 24px)' }}
-            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-            data-lenis-prevent
-          >
-            {[
-              ['Home', sec('top')], ['About Us', '/about'], ['Events', sec('events')],
-              ['Services', '/services'], ['Study Locations', sec('destinations')],
-              ['Accommodation', '/accommodation'], ['Contact', '/contact'],
-            ].map(([label, href], i) => (
-              <motion.a
-                key={label}
-                href={href}
-                onClick={close}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + i * 0.05, duration: 0.5 }}
-              >
-                {label} <ArrowRight size={20} />
-              </motion.a>
-            ))}
-            <a href={ACCOMMODATION_URL} target="_blank" rel="noopener noreferrer" className="btn btn-green" onClick={close}>
-              Get Accommodation <ArrowUpRight size={16} />
-            </a>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {createPortal(<MobileMenu open={mobile} origin={origin} onClose={close} />, document.body)}
     </motion.header>
   )
 }
