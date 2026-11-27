@@ -1,24 +1,31 @@
 import { useEffect } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowUpRight } from 'lucide-react'
-import { sec, path, ACCOMMODATION_URL } from '../data'
+import { ArrowUpRight, X } from 'lucide-react'
+import { services, destinations, sec, path, ACCOMMODATION_URL } from '../data'
 
-const ease = [0.22, 1, 0.36, 1]
+const ease = [0.65, 0, 0.35, 1]
 
-const LINKS = [
+const GROUPS = [
   { label: 'Home', href: sec('top'), match: '/' },
   { label: 'About Us', href: '/about', match: '/about' },
   { label: 'Events', href: sec('events') },
-  { label: 'Services', href: '/services', match: '/services' },
-  { label: 'Study Locations', href: sec('destinations'), match: '/destinations' },
+  {
+    label: 'Services', href: '/services', match: '/services',
+    sub: { title: 'What we offer', links: services.map((s) => ({ label: s.title, href: s.href })) },
+  },
+  {
+    label: 'Study Locations', href: sec('destinations'), match: '/destinations',
+    sub: { title: 'Destinations', links: destinations.map((d) => ({ label: d.name.replace(/^The /, ''), href: d.href })) },
+  },
   { label: 'Accommodation', href: '/accommodation', match: '/accommodation' },
   { label: 'Contact', href: '/contact', match: '/contact' },
 ]
 
-const isCurrent = (l) => l.match && (l.match === '/' ? path === '/' : path.startsWith(l.match))
+const isCurrent = (g) => g.match && (g.match === '/' ? path === '/' : path.startsWith(g.match))
 
-/* A quiet full-screen sheet: the background fades in, then the links
-   slide in from the left one after another. */
+/* Side drawer: a dark, slightly see-through panel slides in from the right,
+   leaving a strip of the page visible. Main sections are small-caps headings,
+   with their sub-pages listed underneath. */
 export default function MobileMenu({ open, onClose }) {
   useEffect(() => {
     if (!open) return undefined
@@ -30,45 +37,50 @@ export default function MobileMenu({ open, onClose }) {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
-          id="mobile-menu"
-          className="m-menu"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Site menu"
-          data-lenis-prevent
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.25, delay: 0.1 } }}
-          transition={{ duration: 0.3 }}
-        >
-          <nav className="m-menu-inner" aria-label="Mobile">
-            <ul className="m-links">
-              {LINKS.map((l, i) => (
-                <motion.li
-                  key={l.label}
-                  initial={{ opacity: 0, x: -24 }}
-                  animate={{ opacity: 1, x: 0, transition: { delay: 0.08 + i * 0.045, duration: 0.5, ease } }}
-                  exit={{ opacity: 0, x: -12, transition: { duration: 0.2 } }}
-                >
-                  <a href={l.href} onClick={onClose} aria-current={isCurrent(l) ? 'page' : undefined}>{l.label}</a>
-                </motion.li>
+        <div key="m-menu" className="m-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site menu">
+          <motion.button
+            type="button"
+            className="m-scrim"
+            aria-label="Close menu"
+            tabIndex={-1}
+            onClick={onClose}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          />
+          <motion.nav
+            className="m-drawer"
+            aria-label="Mobile"
+            data-lenis-prevent
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.6, ease }}
+          >
+            <button type="button" className="m-close" aria-label="Close menu" onClick={onClose}><X size={30} strokeWidth={1.75} /></button>
+            <ul className="m-groups">
+              {GROUPS.map((g) => (
+                <li key={g.label} className={g.sub ? 'has-sub' : ''}>
+                  <a className="m-head" href={g.href} onClick={onClose} aria-current={isCurrent(g) ? 'page' : undefined}>{g.label}</a>
+                  {g.sub && (
+                    <div className="m-subgroup">
+                      <p className="m-subtitle">{g.sub.title}</p>
+                      <ul>
+                        {g.sub.links.map((l) => (
+                          <li key={l.href}><a href={l.href} onClick={onClose}>{l.label}</a></li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </li>
               ))}
             </ul>
-            <motion.a
-              href={ACCOMMODATION_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-dark m-cta"
-              onClick={onClose}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.45, duration: 0.5, ease } }}
-              exit={{ opacity: 0, transition: { duration: 0.15 } }}
-            >
+            <a href={ACCOMMODATION_URL} target="_blank" rel="noopener noreferrer" className="m-cta" onClick={onClose}>
               Get Accommodation <ArrowUpRight size={16} />
-            </motion.a>
-          </nav>
-        </motion.div>
+            </a>
+          </motion.nav>
+        </div>
       )}
     </AnimatePresence>
   )

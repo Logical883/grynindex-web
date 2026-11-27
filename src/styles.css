@@ -237,25 +237,37 @@ p { margin: 0; }
 .burger.is-open .burger-line:first-child { transform: rotate(45deg); }
 .burger.is-open .burger-line:last-child { transform: rotate(-45deg); width: 18px; }
 
-/* While the menu is open the bar sits flat on the sheet */
-.nav-wrap.menu-open .nav { background: transparent; border-color: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
-.nav-wrap.menu-open .nav-cta .btn { opacity: 0; pointer-events: none; }
-.nav-cta .btn { transition: opacity 0.3s; }
-
-/* ---------- Mobile menu: plain full-screen sheet ---------- */
-.m-menu { position: fixed; inset: 0; z-index: 99; background: #faf8f5; color: var(--ink); overflow-y: auto; overscroll-behavior: contain; }
-.m-menu-inner { min-height: 100%; display: flex; flex-direction: column; justify-content: space-between; gap: 32px; padding: 96px 28px 32px; }
-.m-links { list-style: none; margin: 0; padding: 0; }
-.m-links li { border-bottom: 1px solid var(--line); }
-.m-links a {
-  display: block; padding: 16px 0; font-size: 24px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2;
-  transition: color 0.25s, transform 0.35s var(--ease);
+/* ---------- Mobile menu: dark side drawer from the right ---------- */
+.m-menu { position: fixed; inset: 0; z-index: 101; }
+.m-scrim { position: absolute; inset: 0; width: 100%; background: rgba(19, 18, 18, 0.35); cursor: default; }
+.m-drawer {
+  position: absolute; top: 0; right: 0; bottom: 0; width: calc(100% - 34px); max-width: 520px;
+  background: rgba(10, 4, 16, 0.92); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  color: var(--white); overflow-y: auto; overscroll-behavior: contain; padding: 64px 0 32px;
 }
-.m-links a:hover { color: var(--purple); transform: translateX(4px); }
-.m-links a[aria-current="page"] { color: var(--purple); }
-.m-cta { justify-content: center; width: 100%; }
-@media (min-width: 601px) { .m-menu-inner { padding: 112px 48px 40px; max-width: 640px; } .m-links a { font-size: 28px; } }
-@media (max-height: 640px) { .m-links a { padding: 12px 0; font-size: 21px; } }
+.m-close { position: absolute; top: 14px; right: 16px; width: 44px; height: 44px; display: grid; place-items: center; color: var(--white); }
+.m-groups { list-style: none; margin: 0; padding: 0; }
+.m-groups > li { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+.m-head {
+  display: block; padding: 14px 20px; font-size: 15px; font-weight: 600; font-variant: small-caps;
+  text-transform: lowercase; letter-spacing: 0.06em; color: var(--white); transition: background 0.25s, color 0.25s;
+}
+.m-head::first-letter { text-transform: uppercase; }
+.m-head:hover { background: rgba(255, 255, 255, 0.06); }
+.m-head[aria-current="page"] { color: var(--violet-l); }
+.m-subgroup { padding: 4px 40px 14px; }
+.m-subtitle { font-size: 16px; font-weight: 700; margin: 4px 0 6px; }
+.m-subgroup ul { list-style: none; margin: 0; padding: 0; }
+.m-subgroup li { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+.m-subgroup li:last-child { border-bottom: 0; }
+.m-subgroup a { display: block; padding: 8px 0; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, 0.86); transition: color 0.2s; }
+.m-subgroup a:hover { color: var(--violet-l); }
+.m-cta {
+  margin: 24px 20px 0; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 14px 20px; border-radius: 999px; background: var(--white); color: var(--ink); font-weight: 600; font-size: 15px;
+  transition: background 0.25s, color 0.25s;
+}
+.m-cta:hover { background: var(--purple); color: var(--white); }
 
 /* =========================================================
    HERO
