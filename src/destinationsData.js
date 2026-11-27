@@ -170,7 +170,7 @@ export const destinationPages = [
     slug: "china",
     name: "China",
     code: "CN",
-    image: null,
+    image: img('china-flag.svg'),
     heading: "",
     lede: "Study in China through our admission pathway partners.",
     glance: [["1", "Partner institutions"]],
