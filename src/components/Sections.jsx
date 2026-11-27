@@ -138,7 +138,7 @@ export function Destinations() {
             initial={{ opacity: 0, y: 60 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.9, ease, delay: (i % 4) * 0.08 }}>
             <div className="dest-media">
-              <img src={d.image} alt="" loading="lazy" />
+              {d.image ? <img src={d.image} alt="" loading="lazy" /> : <span className="media-fallback" aria-hidden="true">{d.code}</span>}
               <span className="flag-chip"><Globe size={12} /> {d.code}</span>
             </div>
             <div className="dest-body">

@@ -29,8 +29,9 @@ npm run dev
 | `src/servicesData.js` | Services page copy, taken from the live "Our Services" page |
 | `src/scroll.js` | Shared smooth-scroll helper (`scrollToId`) |
 | `src/pages/DestinationPage.jsx` | `/destinations/:slug` template: hero with at-a-glance figures, quick facts, searchable partner schools, how we help, other destinations |
-| `src/directSchools.js` | Direct partner universities per destination (UK so far, from the client's sheet). Shown first; other partners open on request |
-| `src/destinationsData.js` | Generated from the live destination pages (facts verbatim; school lists de-duplicated and sorted) |
+| `src/partnerSchools.js` | Generated from the client's `Partner_Schools_2026_Cleaned.xlsx`: direct schools (main list) and third-party partner schools (on request) per destination; Europe grouped by country |
+| `scripts/` | `parse_partners.py` + `gen_partners.py` regenerate `partnerSchools.js` from the workbook |
+| `src/destinationsData.js` | Destination facts, ledes and at-a-glance figures (from the live site); China added |
 | `src/components/NotReady.jsx` | Placeholder shown for routes not built yet |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
 | `src/styles.css` | Brand tokens and all styles |
@@ -58,6 +59,9 @@ Content notes for the client:
 - No phone number or email appears on the home page. Add them to the footer once confirmed.
 - Destination copy fixes vs the live site: Canada said "You need a valid UK study visa" (now "Canadian study visa"); UK said "intentional students" (now "international students").
 - Ireland's live page has only one quick fact; ask the client for more.
-- UK direct schools: names tidied from the sheet (e.g. LINCON BISHOP -> Lincoln Bishop, RORBERT -> Robert Gordon, UNIVERSITY OF COVENTRY -> Coventry University); University of Law left out until its signing completes. Their tuition deposit, instalment plan and intakes are shown in a table with an intake-month filter (0.5 in the deposit column is shown as "50% of tuition").
-- Other destinations show their single partner list until direct lists arrive.
+- Partner schools come from `Partner_Schools_2026_Cleaned.xlsx` (names only). To update:
+  `python3 -I scripts/parse_partners.py <workbook.xlsx> raw.json && python3 -I scripts/gen_partners.py raw.json src/partnerSchools.js`
+- Names are tidied (typos, casing, provider suffixes like "- OIEG"), de-duplicated across agencies; "Unconfirmed partner" entries (NZ, USA) are included.
+- University of Law is left out of the UK direct list until its signing completes.
+- Destinations with no direct schools (New Zealand, China) show their partner schools as the main list.
 - "Get Accommodation" in the nav opens https://grynindex-accommodation.studentacco.com/ in a new tab.

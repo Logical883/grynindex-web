@@ -8,6 +8,7 @@ const regions = [
   { label: 'UK & Europe', codes: ['UK', 'IE', 'EU'] },
   { label: 'North America', codes: ['CA', 'US'] },
   { label: 'Oceania', codes: ['AU', 'NZ'] },
+  { label: 'Asia', codes: ['CN'] },
 ]
 const byCode = Object.fromEntries(destinations.map((d) => [d.code, d]))
 

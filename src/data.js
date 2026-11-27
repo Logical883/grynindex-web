@@ -86,6 +86,7 @@ export const destinations = [
   { name: 'Australia', code: 'AU', image: img('Australian-Flags.jpg'), href: '/destinations/australia', text: 'Australia is more than a study destination; Australia is a change in lifestyle.' },
   { name: 'Europe', code: 'EU', image: img('European-Union-Flag.jpg'), href: '/destinations/europe', text: 'Embark on an incredible educational adventure in Europe, where diverse cultures and academic excellence meet.' },
   { name: 'New Zealand', code: 'NZ', image: img('new-zealand.webp'), href: '/destinations/new-zealand', text: 'Embark on an enriching academic journey in New Zealand, where natural beauty meets educational excellence.' },
+  { name: 'China', code: 'CN', image: null, href: '/destinations/china', text: 'Study in China through our admission pathway partners.' },
 ]
 
 // Figures taken from the "Why choose us" graphic on the live site.
