@@ -62,6 +62,6 @@ Content notes for the client:
 - Partner schools come from `Partner_Schools_2026_Cleaned.xlsx` (names only). To update:
   `python3 -I scripts/parse_partners.py <workbook.xlsx> raw.json && python3 -I scripts/gen_partners.py raw.json src/partnerSchools.js`
 - Names are tidied (typos, casing, provider suffixes like "- OIEG"), de-duplicated across agencies; "Unconfirmed partner" entries (NZ, USA) are included.
-- University of Law is left out of the UK direct list until its signing completes.
+- University of Law is listed as a UK direct school; the sheet's "(signing in progress)" label is not shown.
 - Destinations with no direct schools (New Zealand, China) show their partner schools as the main list.
 - "Get Accommodation" in the nav opens https://grynindex-accommodation.studentacco.com/ in a new tab.

@@ -40,6 +40,8 @@ FIX = {
     # France / Ireland / Netherlands / USA
     'Ecole the Management Applique/ EMA- Campus: Paris, France': 'École de Management Appliqué (EMA)',
     'Essca': 'ESSCA',
+    'Manchester': 'INTO Manchester',
+    'RHUL': 'Royal Holloway, University of London',
     'University of Europe For Applied Sciences': 'University of Europe for Applied Sciences',
     'Technological University of the Shannon: Midlands Midwest (TUS': 'Technological University of the Shannon: Midlands Midwest (TUS)',
     'The Hague University of Applied Science – Netherland': 'The Hague University of Applied Sciences',
@@ -47,7 +49,6 @@ FIX = {
     'Richard Blan College of Williams and Mary Global Student Success Program': 'Richard Bland College of William & Mary Global Student Success Program',
 }
 DROP = {'CEG', 'Dublin', 'Study Group', 'University College', 'Academy for the International Community NZ Ltd'}
-EXCLUDE_DIRECT = re.compile(r'signing in progress', re.I)   # University of Law: not signed yet
 SMALL = {'of', 'and', 'the', 'for', 'at', 'in', 'de', 'du', 'la', 'le', 'des', 'di', 'del', 'y', 'en', 'am', 'an', 'der', 'und'}
 
 
@@ -63,11 +64,20 @@ def smart_case(name):
 
 def clean(name):
     n = ' '.join(name.split())
+    n = re.sub(r'\s*\(\s*signing in progress\s*\)', '', n, flags=re.I)   # "University of Law (signing in progress)"
     n = re.sub(r'^Malvern International, UK \(Pathway Provider\) - ', '', n)
     n = re.sub(r'^(NAVITAS|QA|INTO)\s+', '', n)
     n = re.sub(r'^[A-Z]{2,5}:\s*', '', n)                       # "FIC: Simon Fraser University"
     n = re.sub(r'\s*\((Direct|LG|Pathways any center|OIEG)\)', '', n, flags=re.I)
     n = re.sub(r'\s*[-–]\s*(CEG|OIEG|QAHE|GUS|StudyGroup|MALVERN)\s*$', '', n, flags=re.I)
+    n = re.sub(r'^(GUS|OIEG|UE|CEG|QAHE|OIEG Group|Navitas Group|Study Group|Higher Education)\s*-\s*', '', n)  # provider prefixes
+    n = re.sub(r'\s*\((?:INTO|OIEG|SG|Study Group|CEG)?\s*-?\s*Direct\)', '', n, flags=re.I)  # "(OIEG Direct)"
+    n = re.sub(r'(?:\s*,|\s+CEG)?\s+Direct$', '', n, flags=re.I)                    # ", Direct" / " CEG Direct"
+    n = re.sub(r'\s*\(via [^)]*\)', '', n, flags=re.I)                              # "(via Kaplan)"
+    n = re.sub(r'\s+via\s+.*$', '', n, flags=re.I)                              # "... via QA Higher Education"
+    n = re.sub(r"^[\w&+.' ]{0,30}Group\s*-\s*", '', n)                          # "Shorelight Group - ", "Group - "
+    n = re.sub(r'^[-#\s]+|[/\s]+$', '', n)                                       # stray "- ", "#", trailing "/"
+    n = re.sub(r'\s*[-–]\s*(DIRECT|RCL|Ulaw)\s*$', '', n, flags=re.I)        # "... - DIRECT", "Regent College London – RCL"
     n = re.sub(r'[\s.*]+$', '', n)                               # trailing dots / admission-level stars
     n = re.sub(r'\s*\*$', '', n)
     n = n.strip()
@@ -97,8 +107,6 @@ def build(sheet):
     data = raw[sheet]
     direct, seen = [], set()
     for e in data['direct']:
-        if EXCLUDE_DIRECT.search(e['name']):
-            continue
         n = clean(e['name'])
         if n in DROP or key(n) in seen:
             continue
@@ -107,7 +115,8 @@ def build(sheet):
     others = []
     for e in data['third']:
         n = clean(e['name'])
-        if not n or n in DROP or len(n) < 3 or key(n) in seen or loose(n) in direct_loose:
+        base = re.sub(r'\s*[-–]\s*[^-–]*Campus$', '', n)                       # campus variant of a direct school
+        if not n or n in DROP or len(n) < 3 or key(n) in seen or loose(n) in direct_loose or loose(base) in direct_loose:
             continue
         seen.add(key(n)); others.append(n)
     srt = lambda xs: sorted(xs, key=lambda s: re.sub(r'^(the|\W)+\s*', '', s, flags=re.I).lower())
@@ -135,7 +144,6 @@ header = '''// Partner schools per study destination, generated from the client'
 // main list; `others` are third-party partner schools (including entries the sheet
 // marks as unconfirmed partners) shown on request. Names are tidied (typos, casing,
 // provider suffixes) and de-duplicated; direct schools are not repeated in `others`.
-// University of Law is left out of the UK direct list until its signing completes.
 export const partnerSchools = {
 '''
 footer = '''
