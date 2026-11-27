@@ -250,11 +250,14 @@ p { margin: 0; }
 .m-groups > li { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
 .m-head {
   display: block; padding: 14px 20px; font-size: 15px; font-weight: 600; font-variant: small-caps;
-  text-transform: lowercase; letter-spacing: 0.06em; color: var(--white); transition: background 0.25s, color 0.25s;
+  letter-spacing: 0.06em; color: var(--white); transition: background 0.25s, color 0.25s;
 }
-.m-head::first-letter { text-transform: uppercase; }
 .m-head:hover { background: rgba(255, 255, 255, 0.06); }
-.m-head[aria-current="page"] { color: var(--violet-l); }
+.m-head[aria-current="page"], .m-head.is-current { color: var(--violet-l); }
+.m-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; text-align: left; }
+.m-chev { flex: none; transition: transform 0.35s var(--ease); }
+.m-toggle[aria-expanded="true"] .m-chev { transform: rotate(180deg); }
+.m-collapse { overflow: hidden; }
 .m-subgroup { padding: 4px 40px 14px; }
 .m-subtitle { font-size: 16px; font-weight: 700; margin: 4px 0 6px; }
 .m-subgroup ul { list-style: none; margin: 0; padding: 0; }
