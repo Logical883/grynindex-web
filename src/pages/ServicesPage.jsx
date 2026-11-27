@@ -54,7 +54,7 @@ function PageHero() {
               We simplify your path to global education by providing seamless international education processes with expert guidance.
             </motion.p>
             <motion.div className="hero-certs" initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.9, ease }}>
-              <span>Certified by</span>
+              <span>Accreditations &amp; training</span>
               {compliance.badges.map((b) => <span className="cert-pill" key={b.name}><img src={b.src} alt={b.name} /></span>)}
             </motion.div>
           </div>
@@ -171,7 +171,10 @@ function Admission() {
           <Reveal as="p" className="svc-body">{s.body}</Reveal>
           <Reveal className="svc-highlight" delay={0.1}>
             <span className="svc-icon"><Handshake size={20} strokeWidth={1.75} /></span>
-            <p>{s.highlight}</p>
+            <div>
+              {s.highlightTitle && <strong className="svc-highlight-title">{s.highlightTitle}</strong>}
+              <p>{s.highlight}</p>
+            </div>
           </Reveal>
         </div>
         <Reveal className="checklist">
@@ -203,30 +206,29 @@ function Visa() {
   return (
     <section id={s.id} className="svc-section">
       <SvcHead s={s} />
-      <Reveal as="p" className="svc-list-title">{s.listTitle}</Reveal>
-      <div className="visa-track">
-        <motion.span className="visa-line" aria-hidden="true" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true, margin: '-15% 0px' }} transition={{ duration: 1.4, ease }} />
-        {s.list.map(({ icon: Icon, text }, i) => (
-          <Reveal key={text} delay={0.15 + i * 0.12} className="visa-step">
-            <span className="visa-dot"><Icon size={20} strokeWidth={1.75} /></span>
-            <span className="visa-step-num">Step {i + 1}</span>
-            <p>{text}</p>
-          </Reveal>
-        ))}
-      </div>
       <div className="svc-split">
-        <Reveal as="p" className="svc-body">{s.body}</Reveal>
-        <Reveal className="svc-highlight" delay={0.1}>
+        <Reveal className="svc-highlight">
           <span className="svc-icon"><ShieldCheck size={20} strokeWidth={1.75} /></span>
-          <p>{s.highlight}</p>
+          <p>{s.body}</p>
         </Reveal>
+        <div>
+          <Reveal as="p" className="svc-list-title">{s.listTitle}</Reveal>
+          <div className="svc-icon-grid">
+            {s.list.map(({ icon: Icon, text }, i) => (
+              <Reveal key={text} delay={(i % 2) * 0.07} className="svc-icon-card">
+                <span className="svc-icon"><Icon size={20} strokeWidth={1.75} /></span>
+                <span>{text}</span>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
       {s.note && <Reveal as="p" className="svc-note"><Info size={16} /> <span><strong>Note:</strong> {s.note}</span></Reveal>}
     </section>
   )
 }
 
-/* ---------- 04 Flight offers ---------- */
+/* ---------- 04 Flight and travel assistance ---------- */
 function Flights() {
   const s = flights
   return (
@@ -238,25 +240,17 @@ function Flights() {
           <p className="eyebrow light"><span className="svc-num light">{s.num}</span>Service</p>
           <SplitText as="h2" className="svc-title light" text={s.title} />
           <p className="flight-lede">{s.lede}</p>
-          <p className="flight-pull">{s.pull}</p>
-          <p className="flight-body">{s.body}</p>
+          <Magnetic>
+            <a href="/contact" className="btn-journey flight-cta">
+              <span className="arrow-disc"><ArrowRight size={16} /></span>
+              Ask about travel assistance
+            </a>
+          </Magnetic>
         </div>
         <div className="flight-side">
           <div className="flight-photo">
             <img src={s.image} alt="" loading="lazy" />
           </div>
-          <p className="flight-list-title">{s.listTitle}</p>
-          <ul className="flight-list">
-            {s.list.map(({ icon: Icon, text }) => (
-              <li key={text}><span className="flight-icon"><Icon size={18} strokeWidth={1.75} /></span>{text}</li>
-            ))}
-          </ul>
-          <Magnetic>
-            <a href="/contact" className="btn-journey">
-              <span className="arrow-disc"><ArrowRight size={16} /></span>
-              Ask about flight offers
-            </a>
-          </Magnetic>
         </div>
       </Reveal>
     </section>
@@ -282,7 +276,7 @@ function Compliance() {
         </div>
         <Reveal className="compliance-photo" delay={0.1}>
           <img src={s.image} alt="A Gryn Index consultant" loading="lazy" />
-          <span className="compliance-chip"><ShieldCheck size={16} /> Fully compliant, professionally regulated</span>
+          <span className="compliance-chip"><ShieldCheck size={16} /> Ethical recruitment and responsible counselling</span>
         </Reveal>
       </div>
       <div className="badge-row">

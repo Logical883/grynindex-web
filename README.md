@@ -32,6 +32,8 @@ npm run dev
 | `src/partnerSchools.js` | Generated from the client's `Partner_Schools_2026_Cleaned.xlsx`: direct schools (main list) and third-party partner schools (on request) per destination; Europe grouped by country |
 | `scripts/` | `parse_partners.py` + `gen_partners.py` regenerate `partnerSchools.js` from the workbook |
 | `src/destinationsData.js` | Destination facts, ledes and at-a-glance figures (from the live site); China added |
+| `src/pages/ContactPage.jsx` | `/contact`: consultation form; posts JSON to `VITE_ENQUIRY_ENDPOINT` (set in Vercel) |
+| `src/legal.js` | Legal links, general disclaimer, privacy notice, complaints intro, office address |
 | `src/components/NotReady.jsx` | Placeholder shown for routes not built yet |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
 | `src/styles.css` | Brand tokens and all styles |
@@ -65,3 +67,10 @@ Content notes for the client:
 - University of Law is listed as a UK direct school; the sheet's "(signing in progress)" label is not shown.
 - Destinations with no direct schools (New Zealand, China) show their partner schools as the main list.
 - "Get Accommodation" in the nav opens https://grynindex-accommodation.studentacco.com/ in a new tab.
+
+## Before final publication (client instructions, 27 Nov 2026)
+
+- Set `VITE_ENQUIRY_ENDPOINT` to the CRM / enquiry system's form endpoint. Until then the contact form says online booking is not connected (no false confirmation).
+- Management to approve: company statistics (900+, 2,000+, 100%, 10 offices, 11 destinations), accreditation wording (British Council-trained counsellors, ICEF Agency Status, ABCC designation), contact details and the full legal policies (their routes show placeholders).
+- Add other confirmed office addresses, phone/WhatsApp numbers, email and opening hours to `src/legal.js` / the contact page.
+- Confirm the testimonial is authorised for publication.

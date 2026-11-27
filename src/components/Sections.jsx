@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react'
 import {
-  ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Calendar, Clock, MapPin,
+  ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, MapPin,
   Quote, ShieldCheck, Headphones, Building, Globe, Ticket, GraduationCap, BadgeCheck,
 } from 'lucide-react'
 import { services, steps, destinations, stats, event, testimonial, img } from '../data'
@@ -26,8 +26,8 @@ export function Stats() {
         ))}
       </div>
       <Reveal className="accredit">
-        <p>Certified &amp; accredited</p>
-        <img src={img('Certifications.jpg')} alt="ICEF accredited agency, British Council certified, ABCC" />
+        <p>Accreditations &amp; training</p>
+        <img src={img('Certifications.jpg')} alt="ICEF Agency Status accreditation, British Council-trained education counsellors, ABCC" />
       </Reveal>
     </section>
   )
@@ -43,7 +43,7 @@ export function Services() {
           <SplitText className="display" text="Everything you need, from first question to boarding pass" />
         </div>
         <Reveal as="p" className="lede" delay={0.2}>
-          Gryn Index is a fully integrated education consulting agency. One team guides your entire study abroad process.
+          Gryn Index is an international education consultancy dedicated to helping students discover suitable academic opportunities, secure university admissions and navigate the student visa application process with confidence. From your first consultation to your departure, our experienced team provides personalised support tailored to your academic background, career aspirations and financial circumstances.
         </Reveal>
       </div>
 
@@ -160,14 +160,14 @@ export function Why() {
   const y = useTransform(scrollYProgress, [0, 1], ['5%', '-5%'])
   const chipY = useTransform(scrollYProgress, [0, 1], [40, -40])
   const points = [
-    { icon: Headphones, title: 'In-person & virtual support', text: '100% support across every step, whichever way suits you.' },
+    { icon: Headphones, title: 'In-person & virtual support', text: 'Comprehensive in-person and virtual support throughout your international education journey, wherever you are.' },
     { icon: Building, title: '10 offices', text: 'Real people you can meet, not anonymous online “experts”.' },
-    { icon: ShieldCheck, title: 'Certified & accredited', text: 'British Council certified, with recognized industry accreditation.' },
+    { icon: ShieldCheck, title: 'British Council-Trained Education Counsellors', text: 'Our team includes professionally trained education counsellors committed to ethical international student recruitment, responsible student counselling and accurate admissions guidance.' },
     { icon: Globe, title: '11 destinations', text: 'UK, Canada, USA, Ireland, Australia, Europe, New Zealand and more.' },
   ]
   const chips = [
     { cls: 'chip-a', icon: GraduationCap, title: '2,000+', sub: 'Offers to top universities' },
-    { cls: 'chip-b', icon: BadgeCheck, title: 'British Council', sub: 'Certified agency' },
+    { cls: 'chip-b', icon: BadgeCheck, title: 'British Council', sub: 'Trained education counsellors' },
     { cls: 'chip-c', icon: MapPin, title: '11 destinations', sub: '10 offices' },
   ]
   return (
@@ -176,7 +176,7 @@ export function Why() {
         <Eyebrow>Why Gryn Index</Eyebrow>
         <SplitText className="display" text="Elevate your study abroad journey" />
         <Reveal as="p" className="lede">
-          At Gryn Index, we simplify your path to global education by providing seamless international education processes with expert guidance.
+          At Gryn Index, we understand that choosing to study internationally is an important academic, personal and financial decision. Our experienced education counsellors provide personalised guidance, access to international institutions, professional application support and comprehensive visa preparation to help you make informed decisions about your future.
         </Reveal>
         <div className="why-points">
           {points.map(({ icon: Icon, title, text }, i) => (
@@ -191,7 +191,7 @@ export function Why() {
 
       <Reveal className="why-visual">
         <motion.div className="collage" style={{ y }}>
-          <img src={img('banner1.png')} alt="Gryn Index counselors with students, and an accepted university application" />
+          <img src={img('banner1.png')} alt="Gryn Index counsellors with students, and an accepted university application" />
         </motion.div>
         {chips.map(({ cls, icon: Icon, title, sub }, i) => (
           <motion.div key={cls} className={`glass-chip ${cls}`} style={{ y: i === 1 ? y : chipY }}>
@@ -211,9 +211,12 @@ export function Events() {
       <div className="container">
         <div className="section-head">
           <div>
-            <Eyebrow>Attend Our Free Events</Eyebrow>
-            <SplitText className="display" text="Learn, connect and get inspired" />
+            <Eyebrow>Our Events</Eyebrow>
+            <SplitText className="display" text="Explore Our Past Events" />
           </div>
+          <Reveal as="p" className="lede" delay={0.1}>
+            Discover highlights from our previous education fairs, information sessions, seminars and community development initiatives. Through these events, Gryn Index connects students, parents and professionals with valuable insights, educational opportunities and expert guidance.
+          </Reveal>
         </div>
 
         <div className="event-feature">
@@ -221,28 +224,24 @@ export function Events() {
             <Tilt max={5}>
               <img src={event.flyer} alt="Gryn Index, Building Values event flyer" />
             </Tilt>
-            <span className="badge-free"><Ticket size={14} /> Registration is free</span>
+            <span className="badge-free"><Ticket size={14} /> Past event</span>
           </Reveal>
           <div className="event-info">
-            <Reveal as="p" className="event-kicker">{event.kicker}, tagged</Reveal>
+            <Reveal as="p" className="event-kicker">{event.kicker}</Reveal>
             <SplitText as="h3" className="event-title" text={event.title} />
             <Reveal className="event-meta" delay={0.1}>
-              <span><Calendar size={16} /> {event.date}</span>
-              <span><Clock size={16} /> {event.time}</span>
               <span><MapPin size={16} /> {event.venue}</span>
             </Reveal>
-            {event.body.map((p, i) => <Reveal as="p" key={i} delay={0.15 + i * 0.05} className="event-body">{p}</Reveal>)}
-            <Reveal as="p" className="event-body em" delay={0.25}>Stay informed and inspired as we shape a brighter future together.</Reveal>
-            <Reveal delay={0.3}>
+            <Reveal delay={0.2}>
               <Magnetic>
-                <a href="/contact" className="btn btn-green">Secure your spot today <ArrowRight size={16} /></a>
+                <a href="#event-highlights" className="btn btn-green">Explore Event Highlights <ArrowRight size={16} /></a>
               </Magnetic>
             </Reveal>
           </div>
         </div>
       </div>
 
-      <div className="marquee" aria-label="Past events">
+      <div id="event-highlights" className="marquee" aria-label="Past event highlights">
         <div className="marquee-track">
           {[...event.gallery, ...event.gallery].map((src, i) => (
             <div className="marquee-item" key={i}><img src={src} alt="" loading="lazy" /></div>
@@ -281,7 +280,7 @@ export function CTA() {
         <div className="mesh" aria-hidden="true"><span className="blob b1" /><span className="blob b2" /></div>
         <div className="grain" aria-hidden="true" />
         <SplitText className="cta-title" text="Start your study abroad journey today" />
-        <Reveal as="p" className="lede light" delay={0.2}>Book a free consultation with our counselors and take the first step.</Reveal>
+        <Reveal as="p" className="lede light" delay={0.2}>Book a free consultation with our counsellors and take the first step.</Reveal>
         <Reveal delay={0.3} className="cta-actions">
           <Magnetic strength={0.4}>
             <a href="/contact" className="btn-orb">Get Started</a>

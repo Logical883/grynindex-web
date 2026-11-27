@@ -42,9 +42,9 @@ function ServicesPanel({ close }) {
         <a href={sec('events')} className="mega-feature" onClick={close}>
           <img src={event.flyer} alt="" />
           <span>
-            <em className="pill-soft"><CalendarDays size={12} /> Free event</em>
+            <em className="pill-soft"><CalendarDays size={12} /> Past event</em>
             <strong>{event.title}</strong>
-            <small>{event.date}, {event.venue}</small>
+            <small>{event.venue}</small>
           </span>
           <ArrowUpRight className="mega-feature-arrow" size={18} />
         </a>
@@ -78,7 +78,7 @@ function DestinationsPanel({ close }) {
           <span>
             <em className="pill-soft">7 destinations</em>
             <strong>Not sure where to study?</strong>
-            <small>Our counselors match your goals, budget and profile to the right country and university.</small>
+            <small>Our counsellors match your goals, budget and profile to the right country and university.</small>
           </span>
           <ArrowUpRight className="mega-feature-arrow" size={18} />
         </a>

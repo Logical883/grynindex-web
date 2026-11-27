@@ -562,6 +562,17 @@ p { margin: 0; }
 .footer-social a { display: inline-flex; align-items: center; gap: 10px; }
 .footer-social .ext { opacity: 0; transform: translate(-4px, 4px); transition: opacity 0.3s, transform 0.3s var(--ease); }
 .footer-social a:hover .ext { opacity: 1; transform: none; }
+.footer-legal {
+  display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; padding-top: 36px; padding-bottom: 12px;
+  border-top: 1px solid rgba(242, 239, 236, 0.12);
+}
+.footer-legal-links { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 20px; }
+.footer-legal-links a { font-size: 14px; transition: color 0.25s; }
+.footer-legal-links a:hover { color: var(--white); }
+.footer-disclaimer { display: grid; gap: 8px; }
+.footer-disclaimer p:not(.footer-h) { font-size: 13px; line-height: 1.6; color: rgba(242, 239, 236, 0.6); }
+@media (max-width: 860px) { .footer-legal { grid-template-columns: 1fr; gap: 32px; } }
+@media (max-width: 600px) { .footer-legal-links { grid-template-columns: 1fr; } }
 .footer-word {
   font-family: var(--display); font-weight: 800; font-size: 15.5vw; line-height: 0.85; letter-spacing: -0.06em !important; text-align: center; white-space: nowrap;
   letter-spacing: -0.04em; margin-top: 20px;
@@ -576,6 +587,52 @@ p { margin: 0; }
 /* =========================================================
    RESPONSIVE
    ========================================================= */
+/* =========================================================
+   CONTACT PAGE
+   ========================================================= */
+.contact-hero { padding-bottom: 64px; }
+.contact-title { font-size: clamp(44px, 6.6vw, 104px); }
+.contact-intro { display: grid; gap: 12px; max-width: 64ch; }
+.contact-intro .lede { max-width: none; }
+.contact-body { display: grid; grid-template-columns: 0.8fr 1.6fr; gap: clamp(24px, 4vw, 56px); align-items: start; }
+.contact-side { display: grid; gap: 14px; position: sticky; top: 110px; }
+.contact-card { display: flex; flex-direction: column; gap: 6px; padding: 22px; border-radius: 22px; background: var(--white); box-shadow: 0 0 0 1px var(--line); }
+.contact-card .fact-icon { margin-bottom: 8px; }
+.contact-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+.contact-value { font-size: 16px; font-weight: 600; color: var(--ink); line-height: 1.5; }
+.contact-form-card { padding: clamp(22px, 3vw, 40px); border-radius: 26px; background: var(--white); box-shadow: 0 0 0 1px var(--line); }
+.contact-form-title { font-size: clamp(24px, 2.4vw, 32px); font-weight: 800; letter-spacing: -0.035em; margin-bottom: 22px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field.wide { grid-column: 1 / -1; }
+.field-label { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+.field-label em { color: var(--purple); font-style: normal; }
+.field input, .field select, .field textarea {
+  font: inherit; font-size: 16px; color: var(--ink); background: var(--paper); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 14px; width: 100%; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field textarea { resize: vertical; min-height: 110px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--purple); box-shadow: 0 0 0 3px rgba(124, 29, 150, 0.15); }
+.privacy-check { display: flex; gap: 12px; align-items: flex-start; margin: 22px 0 18px; font-size: 13.5px; line-height: 1.6; color: var(--muted); }
+.privacy-check input { width: 18px; height: 18px; margin-top: 3px; flex: none; accent-color: var(--purple); }
+.privacy-check a { color: var(--purple); font-weight: 600; text-decoration: underline; }
+.consult-submit { width: 100%; justify-content: center; padding: 16px 26px; }
+.consult-submit:disabled { opacity: 0.6; cursor: progress; }
+.form-result { display: flex; gap: 12px; align-items: flex-start; padding: 16px 18px; border-radius: 16px; font-size: 14.5px; line-height: 1.6; margin-bottom: 16px; }
+.form-result.ok { background: rgba(124, 29, 150, 0.08); color: var(--ink); }
+.form-result.ok svg { color: var(--purple); flex: none; }
+.form-result.bad { background: #fff3f0; color: #7a1d0e; }
+.form-result.bad svg { flex: none; margin-top: 2px; }
+.not-ready-intro { display: grid; gap: 12px; max-width: 62ch; }
+@media (max-width: 860px) {
+  .contact-body { grid-template-columns: 1fr; }
+  .contact-side { position: static; }
+}
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .contact-hero { padding-bottom: 36px; }
+}
+
 /* =========================================================
    PLACEHOLDER PAGES
    ========================================================= */
@@ -892,6 +949,9 @@ p { margin: 0; }
   background: rgba(124, 29, 150, 0.07); color: var(--ink); font-weight: 600; line-height: 1.6;
 }
 .svc-highlight .svc-icon { background: var(--ink); color: var(--white); }
+.svc-highlight-title { display: block; font-size: 15px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 4px; }
+.svc-highlight p { font-weight: 500; }
+.flight-cta { margin-top: 26px; }
 
 .checklist { padding: 28px; border-radius: 24px; background: var(--white); box-shadow: 0 0 0 1px var(--line); }
 .checklist-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }

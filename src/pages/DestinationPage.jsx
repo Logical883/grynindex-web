@@ -369,7 +369,7 @@ function HowWeHelp({ d }) {
       <div className="section-head">
         <div>
           <p className="eyebrow">How we help</p>
-          <SplitText className="display" text={`From counseling to landing in ${d.name}`} />
+          <SplitText className="display" text={`From counselling to landing in ${d.name}`} />
         </div>
         <Reveal as="p" className="lede" delay={0.1}>One team guides your entire study abroad process.</Reveal>
       </div>
@@ -412,7 +412,7 @@ function OtherDestinations({ d }) {
             </div>
             <div className="dest-body">
               <h3>{x.name}</h3>
-              <p>{x.lede}</p>
+              <p>{x.lede.split(/(?<=\.)\s/)[0]}</p>
               <span className="dest-foot">Explore {x.name} <span className="circle-arrow"><ArrowRight size={14} /></span></span>
             </div>
           </motion.a>

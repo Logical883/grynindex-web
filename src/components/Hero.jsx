@@ -73,14 +73,14 @@ export default function Hero() {
 
         <motion.div className="hero-copy" style={{ opacity: fade }}>
           <motion.p className="hero-aside" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9, duration: 0.9, ease }}>
-            Unlock seamless study abroad process with expert guidance.
+            Your journey to global education starts here. Discover international study opportunities with personalised counselling, professional application support and expert visa guidance.
             <span className="hero-tags">
-              {['Counseling', 'Admission', 'Visa', 'Flights'].map((t) => <em key={t}>{t}</em>)}
+              {['Counselling', 'Admission', 'Visa', 'Flights'].map((t) => <em key={t}>{t}</em>)}
             </span>
           </motion.p>
 
-          <h1 className="hero-title">
-            {['A Fully Integrated', 'Education Consulting', 'Agency'].map((line, i) => (
+          <h1 className="hero-title" aria-label="Your Trusted Partner in Global Education">
+            {['Your Trusted Partner', 'in Global Education'].map((line, i) => (
               <span className="line-mask" key={line}>
                 <motion.span initial={{ y: '105%' }} animate={{ y: '0%' }} transition={{ duration: 1, ease, delay: 0.6 + i * 0.12 }}>
                   {line}
@@ -140,7 +140,7 @@ function Finder() {
         </select>
       </label>
       <label>
-        <span className="finder-text">Free counseling, in person or virtual</span>
+        <span className="finder-text">Free counselling, in person or virtual</span>
       </label>
       <Magnetic>
         <button type="submit" className="finder-go" aria-label="Start your journey"><Search size={18} /></button>
