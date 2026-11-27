@@ -96,9 +96,7 @@ export default function Nav() {
   const [mobile, setMobile] = useState(false)
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const [origin, setOrigin] = useState({ x: 0, y: 0 })
   const timer = useRef()
-  const burger = useRef()
   const { scrollY } = useScroll()
 
   useMotionValueEvent(scrollY, 'change', (v) => {
@@ -122,11 +120,7 @@ export default function Nav() {
   const enter = (k) => { clearTimeout(timer.current); setOpen(k) }
   const leave = () => { timer.current = setTimeout(() => setOpen(null), 160) }
   const close = useCallback(() => { setOpen(null); setMobile(false) }, [])
-  const toggleMobile = () => {
-    const r = burger.current.getBoundingClientRect()
-    setOrigin({ x: r.left + r.width / 2, y: r.top + r.height / 2 })
-    setMobile((v) => !v)
-  }
+  const toggleMobile = () => setMobile((v) => !v)
   const Panel = open && menus[open]
 
   return (
@@ -162,7 +156,7 @@ export default function Nav() {
               Get Accommodation <ArrowUpRight size={15} />
             </a>
           </Magnetic>
-          <button ref={burger} className={`burger ${mobile ? 'is-open' : ''}`} aria-label={mobile ? 'Close menu' : 'Open menu'} aria-expanded={mobile} aria-controls="mobile-menu" onClick={toggleMobile}>
+          <button className={`burger ${mobile ? 'is-open' : ''}`} aria-label={mobile ? 'Close menu' : 'Open menu'} aria-expanded={mobile} aria-controls="mobile-menu" onClick={toggleMobile}>
             <span className="burger-line" /><span className="burger-line" />
           </button>
         </div>
@@ -188,7 +182,7 @@ export default function Nav() {
         )}
       </AnimatePresence>
 
-      {createPortal(<MobileMenu open={mobile} origin={origin} onClose={close} />, document.body)}
+      {createPortal(<MobileMenu open={mobile} onClose={close} />, document.body)}
     </motion.header>
   )
 }
