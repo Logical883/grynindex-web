@@ -33,6 +33,7 @@ npm run dev
 | `scripts/` | `parse_partners.py` + `gen_partners.py` regenerate `partnerSchools.js` from the workbook |
 | `src/destinationsData.js` | Destination facts, ledes and at-a-glance figures (from the live site); China added |
 | `src/pages/ContactPage.jsx` | `/contact`: consultation form; posts JSON to `VITE_ENQUIRY_ENDPOINT` (set in Vercel) |
+| `src/pages/AboutPage.jsx`, `src/pages/AccommodationPage.jsx`, `src/aboutData.js` | `/about` and `/accommodation`, from the live pages (British English) |
 | `src/legal.js` | Legal links, general disclaimer, privacy notice, complaints intro, office address |
 | `src/components/NotReady.jsx` | Placeholder shown for routes not built yet |
 | `src/components/fx.jsx` | Reusable effects: custom cursor, reveal, split text, counter, magnetic, tilt |
@@ -74,3 +75,4 @@ Content notes for the client:
 - Management to approve: company statistics (900+, 2,000+, 100%, 10 offices, 11 destinations), accreditation wording (British Council-trained counsellors, ICEF Agency Status, ABCC designation), contact details and the full legal policies (their routes show placeholders).
 - Add other confirmed office addresses, phone/WhatsApp numbers, email and opening hours to `src/legal.js` / the contact page.
 - Confirm the testimonial is authorised for publication.
+- About Us: approve "over 300 successful student travels in the past year" and "eleven destinations"; approve team contact details (team cards show company emails only; phone numbers, sjsasona@gmail.com and the Loughborough University address are held back).

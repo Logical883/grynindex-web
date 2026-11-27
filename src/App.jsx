@@ -8,6 +8,8 @@ import Footer from './components/Footer'
 import NotReady from './components/NotReady'
 import ServicesPage from './pages/ServicesPage'
 import ContactPage from './pages/ContactPage'
+import AboutPage from './pages/AboutPage'
+import AccommodationPage from './pages/AccommodationPage'
 import DestinationPage from './pages/DestinationPage'
 import { destinationBySlug } from './destinationsData'
 import { Cursor, ScrollProgress } from './components/fx'
@@ -31,7 +33,7 @@ function Home() {
 }
 
 // Built pages; every other route shows the "Not yet developed" placeholder.
-const pages = { '/': Home, '/services': ServicesPage, '/contact': ContactPage }
+const pages = { '/': Home, '/services': ServicesPage, '/contact': ContactPage, '/about': AboutPage, '/accommodation': AccommodationPage }
 const destination = path.startsWith('/destinations/') ? destinationBySlug[path.split('/')[2]] : null
 
 export default function App() {
