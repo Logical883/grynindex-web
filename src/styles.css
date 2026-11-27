@@ -1090,6 +1090,30 @@ p { margin: 0; }
 .fact-card p { font-size: 15px; line-height: 1.7; color: var(--muted); }
 .fact-card.featured p { color: rgba(242, 239, 236, 0.82); font-size: 16px; }
 
+.fact-text { display: flex; flex-direction: column; gap: 10px; }
+.fact-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.fact-list li { position: relative; padding-left: 18px; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
+.fact-list li::before { content: ''; position: absolute; left: 2px; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--purple); }
+.fact-card.featured .fact-list li { color: rgba(242, 239, 236, 0.85); }
+.fact-card.featured .fact-list li::before { background: var(--cream); }
+.dest-refs {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; margin-top: 22px; padding: 16px 20px;
+  border-radius: 16px; background: var(--white); box-shadow: 0 0 0 1px var(--line); font-size: 14px;
+}
+.dest-refs-label { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; color: var(--ink); }
+.dest-refs-label svg { color: var(--purple); }
+.dest-refs ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.dest-refs a { display: inline-flex; align-items: center; gap: 5px; color: var(--purple); font-weight: 600; word-break: break-all; }
+.dest-refs a:hover { text-decoration: underline; }
+.dest-reviewed { font-size: 13.5px; color: var(--muted); text-align: center; padding-top: 8px; padding-bottom: 36px; }
+.countries { padding-top: 0; }
+.country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.country-card { display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: 22px; background: var(--white); box-shadow: 0 0 0 1px var(--line); }
+.country-top { display: flex; align-items: center; gap: 12px; }
+.country-top h3 { font-size: 19px; font-weight: 700; letter-spacing: -0.02em; }
+.country-card p { font-size: 14.5px; line-height: 1.65; color: var(--muted); }
+.flag { flex: none; border-radius: 3px; box-shadow: 0 0 0 1px rgba(19, 18, 18, 0.12); }
+.school-letter .flag { margin-right: 8px; vertical-align: -1px; }
 .partners { background: var(--cream); border-radius: 32px; margin: 0 12px; }
 .partners-head { align-items: flex-end; }
 .partners-head .lede { margin-top: 14px; }
@@ -1157,6 +1181,7 @@ p { margin: 0; }
   .fact-grid { grid-template-columns: 1fr 1fr; }
   .help-grid { grid-template-columns: 1fr 1fr; }
   .pathway-card { grid-template-columns: 1fr; }
+  .country-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 860px) {
   .dest-title { font-size: clamp(48px, 14vw, 92px); }
@@ -1179,6 +1204,9 @@ p { margin: 0; }
   .school-board { border-radius: 20px; }
   .school-more .btn { width: 100%; justify-content: center; }
   .help-grid { grid-template-columns: 1fr; gap: 12px; }
+  .country-grid { grid-template-columns: 1fr; gap: 12px; }
+  .country-card { padding: 20px; }
+  .dest-refs { padding: 14px 16px; }
   .help-card { padding: 20px; }
   .more-schools-cta .btn { width: 100%; justify-content: center; }
 }

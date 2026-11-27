@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
-import { ArrowRight, ArrowUpRight, ChevronDown, ChevronRight, Globe, Search, X } from 'lucide-react'
-import { destinationPages, pathwayPartnersImage } from '../destinationsData'
+import { ArrowRight, ArrowUpRight, ChevronDown, ChevronRight, ExternalLink, Globe, Info, Search, X } from 'lucide-react'
+import { destinationPages, pathwayPartnersImage, INFO_REVIEWED } from '../destinationsData'
+import Flag from '../components/Flag'
+import { COUNTRY_FLAG } from '../countryFlags'
 import { serviceSections } from '../servicesData'
 import { Reveal, SplitText, Magnetic } from '../components/fx'
 import { CTA } from '../components/Sections'
@@ -110,6 +112,71 @@ function DestHero({ d }) {
   )
 }
 
+/* Fact text: blank line = paragraph, "• " lines = bullet list. */
+function RichText({ text }) {
+  const blocks = []
+  text.split('\n').forEach((line) => {
+    const last = blocks[blocks.length - 1]
+    if (line.startsWith('• ')) {
+      if (last?.type === 'ul') last.items.push(line.slice(2))
+      else blocks.push({ type: 'ul', items: [line.slice(2)] })
+    } else if (line.trim()) {
+      if (last?.type === 'p' && !last.closed) last.text += ' ' + line
+      else blocks.push({ type: 'p', text: line })
+    } else if (last) {
+      last.closed = true
+    }
+  })
+  return blocks.map((b, i) =>
+    b.type === 'ul'
+      ? <ul key={i} className="fact-list">{b.items.map((t) => <li key={t}>{t}</li>)}</ul>
+      : <p key={i}>{b.text}</p>,
+  )
+}
+
+/* Official reference links shown under immigration information. */
+function References({ links }) {
+  if (!links?.length) return null
+  return (
+    <Reveal className="dest-refs">
+      <span className="dest-refs-label"><Info size={16} /> Official references</span>
+      <ul>
+        {links.map((href) => (
+          <li key={href}>
+            <a href={href} target="_blank" rel="noopener noreferrer">{href.replace(/^https?:\/\//, '').replace(/\/$/, '')} <ExternalLink size={13} /></a>
+          </li>
+        ))}
+      </ul>
+    </Reveal>
+  )
+}
+
+/* Europe: introductions for countries covered by the partner school list. */
+function Countries({ d }) {
+  if (!d.countries?.length) return null
+  return (
+    <section className="section container countries">
+      <div className="section-head">
+        <div>
+          <p className="eyebrow">Destinations in Europe</p>
+          <SplitText className="display" text="Countries you can study in" />
+        </div>
+      </div>
+      <div className="country-grid">
+        {d.countries.map((c, i) => (
+          <Reveal key={c.name} delay={(i % 3) * 0.07} className="country-card">
+            <div className="country-top">
+              <Flag code={c.flag} label={c.name} size={22} />
+              <h3>{c.name}</h3>
+            </div>
+            <p>{c.text}</p>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 /* ---------- Quick facts (bento grid) ---------- */
 function Facts({ d }) {
   return (
@@ -128,10 +195,11 @@ function Facts({ d }) {
               <span className="fact-num">{String(i + 1).padStart(2, '0')}</span>
             </div>
             <h3>{title}</h3>
-            <p>{text}</p>
+            <div className="fact-text"><RichText text={text} /></div>
           </Reveal>
         ))}
       </div>
+      <References links={d.references} />
     </section>
   )
 }
@@ -179,7 +247,7 @@ function SchoolBoard({ names, groups, label = 'schools', preview = PREVIEW }) {
         <div className={groups ? 'school-groups countries' : 'school-groups'}>
           {sections.map(([heading, list]) => (
             <div className="school-group" key={heading}>
-              <p className="school-letter">{heading}</p>
+              <p className="school-letter">{COUNTRY_FLAG[heading] && <Flag code={COUNTRY_FLAG[heading]} size={12} />}{heading}</p>
               <ul>{list.map((n) => <li key={n}>{n}</li>)}</ul>
             </div>
           ))}
@@ -359,9 +427,13 @@ export default function DestinationPage({ destination: d }) {
     <>
       <DestHero d={d} />
       {d.facts.length > 0 && <Facts d={d} />}
+      <Countries d={d} />
       <Partners d={d} />
       <HowWeHelp d={d} />
       <OtherDestinations d={d} />
+      <p className="container dest-reviewed">
+        Information last reviewed: {INFO_REVIEWED}. Admission and immigration requirements are subject to change.
+      </p>
       <CTA />
     </>
   )

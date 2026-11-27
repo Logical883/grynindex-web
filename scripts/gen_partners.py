@@ -14,14 +14,14 @@ EUROPE = ['France', 'Germany', 'Greece', 'Italy', 'Malta', 'Netherlands', 'Polan
 # Exact replacements (after basic cleanup) for typos, provider variants and truncated entries.
 FIX = {
     # UK direct variants
-    'Aston London': 'Aston University London', 'Aston London University': 'Aston University London',
+    'Aston London': 'Aston University – London Campus', 'Aston London University': 'Aston University – London Campus',
     'BBP University London': 'BPP University London', 'BPP London': 'BPP University London',
     'Health Science University': 'Health Sciences University',
     'Lincon Bishop University': 'Lincoln Bishop University',
     'Northumbria London': 'Northumbria University London',
     'Ravens Bourne University': 'Ravensbourne University London',
     'Royal Holloway University of London': 'Royal Holloway, University of London',
-    'University of Hull London': 'University of Hull, London',
+    'University of Hull London': 'University of Hull – London Campus',
     'Teesside Universitty': 'Teesside University',
     'University of Southwales': 'University of South Wales',
     'University of Gloucestershire (UOG': 'University of Gloucestershire',
@@ -42,6 +42,24 @@ FIX = {
     'Essca': 'ESSCA',
     'Manchester': 'INTO Manchester',
     'RHUL': 'Royal Holloway, University of London',
+    # Client corrections (Nov 2026)
+    'Australian College of Applied Psychology': 'ACAP University College',
+    'Australian College of Applied Professions': 'ACAP University College',
+    'Letterkenny Institute of Technology': 'Atlantic Technological University (ATU)',
+    'Atlantic Technological University Sligo – Ireland': 'Atlantic Technological University (ATU)',
+    'Institute of Technology Carlow': 'South East Technological University (SETU)',
+    'Limerick Institute of Technology': 'Technological University of the Shannon (TUS)',
+    'Technological University of the Shannon: Midlands Midwest (TUS)': 'Technological University of the Shannon (TUS)',
+    'National University of Ireland, Galway': 'University of Galway',
+    'National University of Ireland Galway': 'University of Galway',
+    'Plymouth University': 'University of Plymouth',
+    'Plymouth University/ Plymouth University International College (PUIC)': 'University of Plymouth International College',
+    'University of Plymouth International College (Navitas)': 'University of Plymouth International College',
+    'University of Plymouth International College (UPIC) at Plymouth University': 'University of Plymouth International College',
+    'Ravensbourne University': 'Ravensbourne University London',
+    'Aston University London': 'Aston University – London Campus',
+    'University of Hull, London': 'University of Hull – London Campus',
+    'Brescia University College': 'Western University',   # integrated into Western University (May 2024); Western is approved
     'University of Europe For Applied Sciences': 'University of Europe for Applied Sciences',
     'Technological University of the Shannon: Midlands Midwest (TUS': 'Technological University of the Shannon: Midlands Midwest (TUS)',
     'The Hague University of Applied Science – Netherland': 'The Hague University of Applied Sciences',
@@ -76,7 +94,7 @@ def clean(name):
     n = re.sub(r'\s*\(via [^)]*\)', '', n, flags=re.I)                              # "(via Kaplan)"
     n = re.sub(r'\s+via\s+.*$', '', n, flags=re.I)                              # "... via QA Higher Education"
     n = re.sub(r"^[\w&+.' ]{0,30}Group\s*-\s*", '', n)                          # "Shorelight Group - ", "Group - "
-    n = re.sub(r'^[-#\s]+|[/\s]+$', '', n)                                       # stray "- ", "#", trailing "/"
+    n = re.sub(r'^[-#\s]+|[-–/\s]+$', '', n)                                    # stray "- ", "#", trailing "/" or " -"
     n = re.sub(r'\s*[-–]\s*(DIRECT|RCL|Ulaw)\s*$', '', n, flags=re.I)        # "... - DIRECT", "Regent College London – RCL"
     n = re.sub(r'[\s.*]+$', '', n)                               # trailing dots / admission-level stars
     n = re.sub(r'\s*\*$', '', n)
@@ -86,7 +104,8 @@ def clean(name):
     elif n.startswith('(') and ')' not in n:
         n = n[1:]
     n = smart_case(n)
-    n = FIX.get(n, n)
+    while n in FIX and FIX[n] != n:                                               # chained fixes
+        n = FIX[n]
     return n
 
 
