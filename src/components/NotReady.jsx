@@ -10,7 +10,6 @@ const titles = {
   about: 'About Us',
   accommodation: 'Accommodation',
   contact: 'Contact',
-  blog: 'Blog',
   destinations: 'Study Destinations',
   ...Object.fromEntries(legalLinks.map((l) => [l.href.slice(1), l.title])),
 }
